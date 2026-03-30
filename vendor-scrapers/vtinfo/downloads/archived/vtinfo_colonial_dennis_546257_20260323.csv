@@ -1,6 +1,0 @@
-ProductId,ItemDescription,UnitOfMeasure,UnitsPerCase,SellableUnitsPerCase,QuantityOrdered,QuantityFilled,QuantityOut,Price,Discount,Deposit,ExtendedDeposit,ExtendedPrice,RetailerUPC,PackageUPC,UnitUPC
-15548,Coors Light 24 Pack (12 oz Bottles),case,24,1,5,5,0,28.00,.00,1.20,6.00,146.00,71990300074,71990300074,7199042
-10048,Miller Lite 24 Pack (12 oz Bottles),case,24,1,5,5,0,28.00,.00,1.20,6.00,146.00,3436219,34100572150,3436219
-99513,"RETURNS 1/2,1/4,&1/6",case,1,0,-2,-2,0,.00,.00,30.00,-60.00,-60.00,0,0,0
-46782,Two Roads Cruise Control 15.5 gal Keg,keg,1,0,1,1,0,125.00,.00,30.00,30.00,155.00,0,0,0
-38802,White Claw Black Cherry 24 Pack (12 oz Cans),case,24,1,1,1,0,32.80,.00,1.20,1.20,34.00,635985200253,635985200413,635985500018

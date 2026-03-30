@@ -1,6 +1,0 @@
-ProductId,ItemDescription,UnitOfMeasure,UnitsPerCase,SellableUnitsPerCase,QuantityOrdered,QuantityFilled,QuantityOut,Price,Discount,Deposit,ExtendedDeposit,ExtendedPrice,RetailerUPC,PackageUPC,UnitUPC
-15548,Coors Light 24 Pack (12 oz Bottles),case,24,1,2,2,0,28.00,.00,1.20,2.40,58.40,71990300074,71990300074,7199042
-10691,Miller High Life 15.5 gal Keg,keg,1,1,2,2,0,110.00,27.00,30.00,60.00,226.00,34100011529,34100011529,0
-10091,Miller Lite 15.5 gal Keg,keg,1,1,1,1,0,122.00,.00,30.00,30.00,152.00,34100005344,34100005344,0
-99513,"RETURNS 1/2,1/4,&1/6",case,1,0,-5,-5,0,.00,.00,30.00,-150.00,-150.00,0,0,0
-80310,Surfside Iced Tea & Lemonade + Vodka 24 Pack (12 oz Cans),case,24,1,2,2,0,45.00,.00,.00,0.00,90.00,0,10850025605424,0
