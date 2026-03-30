@@ -1,0 +1,5 @@
+ProductId,ItemDescription,UnitOfMeasure,UnitsPerCase,SellableUnitsPerCase,QuantityOrdered,QuantityFilled,QuantityOut,Price,Discount,Deposit,ExtendedDeposit,ExtendedPrice,RetailerUPC,PackageUPC,UnitUPC
+58775,Carlson Orchards  Cider Barn Select 5.17 gal Keg,keg,1,1,1,1,0,96.00,.00,30.00,30.00,126.00,0,0,0
+15548,Coors Light 24 Pack (12 oz Bottles),case,24,1,2,2,0,28.00,.00,1.20,2.40,58.40,71990300074,71990300074,7199042
+10691,Miller High Life 15.5 gal Keg,keg,1,1,1,1,0,110.00,27.00,30.00,30.00,113.00,34100011529,34100011529,0
+99513,"RETURNS 1/2,1/4,&1/6",case,1,0,-3,-3,0,.00,.00,30.00,-90.00,-90.00,0,0,0

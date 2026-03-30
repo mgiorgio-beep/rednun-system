@@ -1,0 +1,239 @@
+/* ══════════════════════════════════════════
+   Red Nun Dashboard — iOS Design System
+   Overlay CSS to reskin the existing dashboard
+   ══════════════════════════════════════════ */
+
+/* ── Reset & Base ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --bg: #1C1C1E !important;
+  --bg-card: rgba(44,44,46,0.98) !important;
+  --bg-card-alt: rgba(58,58,60,0.5) !important;
+  --border: rgba(255,255,255,0.1) !important;
+  --text: #F5F5F7 !important;
+  --text-dim: rgba(245,245,247,0.65) !important;
+  --text-muted: rgba(245,245,247,0.4) !important;
+  --red: #FF453A !important;
+  --red-bright: #FF6259 !important;
+  --green: #30D158 !important;
+  --amber: #FF9F0A !important;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  --r: 16px !important;
+  --r-sm: 10px !important;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  background: #1C1C1E !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Header ── */
+.hdr {
+  background: rgba(28,28,30,0.8) !important;
+  backdrop-filter: blur(30px) !important;
+  -webkit-backdrop-filter: blur(30px) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+  padding: 12px 20px !important;
+}
+
+.hdr-logo {
+  background: linear-gradient(135deg, #FF453A, #FF6259) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 12px rgba(255,69,58,0.3) !important;
+}
+
+.hdr-title {
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  letter-spacing: -0.3px !important;
+}
+
+.hdr-sub {
+  letter-spacing: 0.5px !important;
+}
+
+/* ── Tabs ── */
+.tab {
+  border-radius: 20px !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  padding: 8px 16px !important;
+  transition: all 0.2s !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  background: rgba(58,58,60,0.5) !important;
+}
+
+.tab.active {
+  background: rgba(255,69,58,0.15) !important;
+  border-color: rgba(255,69,58,0.4) !important;
+  color: #FF453A !important;
+}
+
+.tab:hover {
+  border-color: rgba(255,255,255,0.2) !important;
+}
+
+/* ── Location Buttons ── */
+.loc-btn {
+  border-radius: 10px !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  padding: 9px 16px !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.loc-btn.active {
+  background: rgba(255,69,58,0.15) !important;
+  border: 1px solid rgba(255,69,58,0.4) !important;
+  color: #FF453A !important;
+}
+
+/* ── Date Buttons ── */
+.btn, .btn-red {
+  border-radius: 10px !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  padding: 8px 14px !important;
+  transition: all 0.2s !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  background: rgba(58,58,60,0.5) !important;
+}
+
+.btn:hover {
+  border-color: rgba(255,255,255,0.2) !important;
+  color: var(--text) !important;
+}
+
+.btn-red {
+  background: linear-gradient(135deg, #FF453A, #FF6259) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(255,69,58,0.25) !important;
+}
+
+.date-btn.date-active {
+  background: linear-gradient(135deg, #FF453A, #FF6259) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 12px rgba(255,69,58,0.25) !important;
+}
+
+/* ── Nav Link Buttons ── */
+a.btn {
+  border-radius: 10px !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  transition: all 0.2s !important;
+}
+
+/* ── KPI Cards ── */
+.kpi-grid {
+  gap: 10px !important;
+}
+
+.kpi {
+  background: rgba(58,58,60,0.4) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  border-radius: 14px !important;
+  padding: 16px !important;
+  transition: all 0.2s !important;
+}
+
+.kpi:hover {
+  border-color: rgba(255,255,255,0.15) !important;
+}
+
+.kpi-label {
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.8px !important;
+}
+
+.kpi-val {
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  letter-spacing: -0.5px !important;
+}
+
+.kpi-sub {
+  font-family: 'Inter', -apple-system, sans-serif !important;
+}
+
+/* ── Panels & Charts ── */
+.panel {
+  font-family: 'Inter', -apple-system, sans-serif !important;
+}
+
+.section-title {
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  letter-spacing: -0.2px !important;
+}
+
+/* ── Chart Containers ── */
+.chart-wrap, [id*="chart"], [id*="Chart"] {
+  background: rgba(58,58,60,0.3) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 14px !important;
+}
+
+/* ── Tables ── */
+table {
+  font-family: 'Inter', -apple-system, sans-serif !important;
+}
+
+th {
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.8px !important;
+  color: rgba(245,245,247,0.4) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+}
+
+td {
+  font-size: 13px !important;
+  border-bottom: 1px solid rgba(255,255,255,0.04) !important;
+}
+
+tr:hover td {
+  background: rgba(255,255,255,0.03) !important;
+}
+
+/* ── Date Inputs ── */
+input[type="date"] {
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  background: rgba(58,58,60,0.5) !important;
+  padding: 8px 12px !important;
+  transition: border-color 0.2s !important;
+}
+
+input[type="date"]:focus {
+  border-color: rgba(255,255,255,0.25) !important;
+  outline: none !important;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+/* ── Toast ── */
+.toast-msg {
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  border-radius: 14px !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .hdr { padding: 10px 16px !important; }
+  .kpi { padding: 12px !important; }
+}

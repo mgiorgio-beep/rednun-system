@@ -1,0 +1,5 @@
+ProductId,ItemDescription,UnitOfMeasure,UnitsPerCase,SellableUnitsPerCase,QuantityOrdered,QuantityFilled,QuantityOut,Price,Discount,Deposit,ExtendedDeposit,ExtendedPrice,RetailerUPC,PackageUPC,UnitUPC
+18291,Blue Moon Belgian White 15.5 gal Keg,keg,1,1,1,1,0,183.00,.00,30.00,30.00,213.00,71990095154,71990095154,0
+15548,Coors Light 24 Pack (12 oz Bottles),case,24,1,5,5,0,28.00,.00,1.20,6.00,146.00,71990300074,71990300074,7199042
+44971,Devil's Purse Handline Kolsch 15.5 gal Keg,keg,1,0,1,1,0,186.00,.00,30.00,30.00,216.00,0,0,0
+99513,"RETURNS 1/2,1/4,&1/6",case,1,0,-2,-2,0,.00,.00,30.00,-60.00,-60.00,0,0,0

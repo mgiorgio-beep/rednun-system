@@ -1,0 +1,1792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1C1C1E">
+<title>Red Nun — Invoice Scanner</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #1C1C1E;
+  --bg-elevated: rgba(44,44,46,0.98);
+  --bg-card: rgba(58,58,60,0.5);
+  --bg-glass: rgba(58,58,60,0.4);
+  --border: rgba(255,255,255,0.1);
+  --border-focus: rgba(255,255,255,0.25);
+  --text: #F5F5F7;
+  --text2: rgba(245,245,247,0.65);
+  --text3: rgba(245,245,247,0.4);
+  --red: #FF453A;
+  --red-soft: rgba(255,69,58,0.15);
+  --green: #30D158;
+  --green-soft: rgba(48,209,88,0.15);
+  --blue: #0A84FF;
+  --blue-soft: rgba(10,132,255,0.15);
+  --orange: #FF9F0A;
+  --orange-soft: rgba(255,159,10,0.15);
+  --purple: #BF5AF2;
+  --yellow: #FFD60A;
+  --r: 16px;
+  --r-lg: 24px;
+  --r-sm: 10px;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  font-size: 12px;
+}
+
+/* Layout */
+.layout { display: flex; height: 100vh; }
+.sidebar { width: 240px; background: rgba(24,24,27,0.98); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
+.main-content { flex: 1; overflow-y: auto; }
+
+/* Sidebar */
+.sidebar-header { padding: 20px; border-bottom: 1px solid var(--border); }
+
+/* ── Header ── */
+.header {
+  display: none;
+}
+.hdr-left { display: flex; align-items: center; gap: 12px; }
+.hdr-logo {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, #FF453A, #FF6259);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 14px; color: #fff;
+  box-shadow: 0 2px 8px rgba(255,69,58,0.25);
+}
+.hdr-title { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; }
+.hdr-sub { font-size: 11px; color: var(--text3); font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; }
+.hdr-btn {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r-sm); color: var(--text2);
+  padding: 7px 14px; font-size: 12px; font-weight: 500;
+  font-family: var(--font); cursor: pointer; text-decoration: none;
+  transition: all 0.2s;
+}
+.hdr-btn:hover { background: var(--bg-glass); color: var(--text); }
+
+/* ── Page Tabs ── */
+.page-tabs {
+  background: rgba(28,28,30,0.85);
+  backdrop-filter: blur(30px);
+  border-bottom: 1px solid var(--border);
+  display: flex; gap: 4px; padding: 12px 24px;
+  position: sticky; top: 0; z-index: 99;
+}
+.page-tabs::-webkit-scrollbar { display: none; }
+.page-tab {
+  padding: 8px 16px; border-radius: 8px;
+  background: transparent; border: 1px solid transparent;
+  color: var(--text2); font-size: 13px; font-weight: 600;
+  cursor: pointer; white-space: nowrap;
+  transition: all 0.2s; text-decoration: none; display: inline-block;
+}
+.page-tab:hover { background: var(--bg-card); border-color: var(--border); }
+.page-tab.active { background: var(--red-soft); border-color: rgba(255,69,58,0.35); color: var(--red); }
+
+/* Desktop: Better spacing and positioning */
+@media(min-width:769px){
+  .page-tabs{
+    padding: 12px 20px;
+    gap: 6px;
+  }
+  .page-tab{
+    font-size: 14px;
+    padding: 10px 18px;
+  }
+}
+
+/* ── Content ── */
+.content {
+  padding: calc(var(--safe-top) + 110px) 0 calc(80px + var(--safe-bottom));
+  min-height: 100vh; min-height: 100dvh;
+}
+
+/* ── Location Picker ── */
+.loc-picker {display:none !important;
+  display: flex; gap: 8px; padding: 20px 20px 12px;
+}
+.loc-pill {
+  flex: 1; padding: 9px; border-radius: 10px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  color: var(--text2); font-size: 13px; font-weight: 500;
+  font-family: var(--font); cursor: pointer; text-align: center;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.loc-pill.active {
+  background: var(--red-soft); border-color: rgba(255,69,58,0.4);
+  color: var(--red);
+}
+
+/* ── Scan View ── */
+.scan-section { padding: 0 20px; }
+
+.scan-zone {
+  width: 100%; aspect-ratio: 3/2;
+  border-radius: var(--r-lg); overflow: hidden;
+  background: var(--bg-elevated);
+  border: 1.5px dashed rgba(255,255,255,0.12);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  cursor: pointer; position: relative;
+  transition: all 0.3s;
+}
+.scan-zone:hover, .scan-zone.dragover {
+  border-color: var(--red); background: rgba(255,69,58,0.03);
+}
+.scan-zone.has-image { border: none; }
+.scan-zone.has-image .scan-prompt { display: none; }
+
+.scan-prompt { text-align: center; }
+.scan-prompt-icon {
+  width: 56px; height: 56px; border-radius: 16px;
+  background: var(--bg-card); margin: 0 auto 14px; color: var(--text2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+}
+.scan-prompt-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; letter-spacing: -0.2px; }
+.scan-prompt-sub { font-size: 12px; color: var(--text3); font-weight: 400; }
+
+.scan-zone img {
+  width: 100%; height: 100%; object-fit: cover;
+  border-radius: var(--r-lg);
+}
+
+.scan-zone .pdf-preview {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  height: 100%;
+}
+.pdf-icon { font-size: 48px; margin-bottom: 8px; }
+.pdf-name { font-size: 13px; color: var(--text2); }
+
+input[type="file"] { display: none; }
+
+/* ── Action Buttons ── */
+.scan-actions {
+  display: flex; gap: 10px; padding: 16px 20px;
+}
+.action-btn {
+  flex: 1; padding: 12px; border-radius: 12px;
+  font-size: 14px; font-weight: 600;
+  font-family: var(--font); cursor: pointer;
+  border: none; transition: all 0.25s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.action-btn:active { transform: scale(0.97); }
+.btn-camera {
+  background: var(--bg-card); color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-upload {
+  background: var(--bg-card); color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-scan {
+  background: linear-gradient(135deg, #FF453A, #FF6259);
+  color: #fff; box-shadow: 0 2px 12px rgba(255,69,58,0.25);
+}
+.btn-scan:disabled {
+  opacity: 0.3; box-shadow: none; cursor: not-allowed;
+}
+
+/* ── Processing Overlay ── */
+.processing {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(28,28,30,0.9);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  flex-direction: column; align-items: center; justify-content: center;
+}
+.processing.active { display: flex; }
+.proc-ring {
+  width: 60px; height: 60px;
+  border: 3px solid var(--border);
+  border-top-color: var(--red);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 24px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.proc-text { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+.proc-sub { font-size: 13px; color: var(--text3); }
+
+/* ── Review View ── */
+.review-view { display: none; }
+.review-view.active { display: block; }
+.scan-view.hidden { display: none; }
+
+.rv-header {
+  padding: 16px 20px; display: flex;
+  align-items: center; justify-content: space-between;
+}
+.rv-title { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+.rv-back {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r-sm); color: var(--text2);
+  padding: 7px 14px; font-size: 13px; font-weight: 500;
+  font-family: var(--font); cursor: pointer;
+}
+
+.rv-card {
+  margin: 0 20px 12px; padding: 18px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--r); transition: all 0.2s;
+}
+
+.rv-field-row { display: flex; gap: 10px; margin-bottom: 10px; }
+.rv-field-row:last-child { margin-bottom: 0; }
+.rv-field { flex: 1; }
+.rv-label {
+  font-size: 10px; font-weight: 600; color: var(--text3);
+  text-transform: uppercase; letter-spacing: 0.8px;
+  margin-bottom: 5px;
+}
+.rv-input {
+  width: 100%; padding: 10px 12px;
+  background: rgba(0,0,0,0.2); border: 1px solid var(--border);
+  border-radius: var(--r-sm); color: var(--text);
+  font-size: 15px; font-family: var(--font); font-weight: 500;
+  transition: border-color 0.2s;
+}
+.rv-input:focus { outline: none; border-color: var(--blue); }
+
+.rv-total-input {
+  font-size: 28px; font-weight: 800; letter-spacing: -1px;
+  color: var(--green); text-align: right;
+  background: transparent; border: 1px solid transparent;
+}
+.rv-total-input:focus { border-color: var(--blue); }
+
+.rv-category {
+  display: inline-block; padding: 4px 12px;
+  border-radius: 8px; font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.cat-FOOD { background: var(--green-soft); color: var(--green); }
+.cat-BEER { background: var(--orange-soft); color: var(--orange); }
+.cat-LIQUOR { background: var(--red-soft); color: var(--red); }
+.cat-WINE { background: rgba(191,90,242,0.15); color: var(--purple); }
+.cat-NA_BEVERAGES { background: var(--blue-soft); color: var(--blue); }
+.cat-NON_COGS { background: rgba(255,255,255,0.06); color: var(--text3); }
+
+/* ── Line Items ── */
+.rv-items-title {
+  padding: 20px 20px 12px;
+  font-size: 13px; font-weight: 600; color: var(--text2);
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+.rv-item {
+  margin: 0 20px 8px; padding: 14px 16px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: flex; align-items: center; gap: 12px;
+  transition: all 0.2s;
+}
+.rv-item-info { flex: 1; min-width: 0; }
+.rv-item-name {
+  font-size: 14px; font-weight: 600; letter-spacing: -0.2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.rv-item-desc {
+  font-size: 11px; color: var(--text3); margin-top: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.rv-item-qty { font-size: 12px; color: var(--text2); margin-top: 3px; }
+
+.rv-item-cat select {
+  appearance: none; -webkit-appearance: none;
+  padding: 4px 8px; border-radius: 8px;
+  font-size: 10px; font-weight: 700; font-family: var(--font);
+  border: 1px solid var(--border); cursor: pointer;
+  text-transform: uppercase; letter-spacing: 0.3px;
+}
+.rv-item-cat select.cat-FOOD { background: var(--green-soft); color: var(--green); }
+.rv-item-cat select.cat-BEER { background: var(--orange-soft); color: var(--orange); }
+.rv-item-cat select.cat-LIQUOR { background: var(--red-soft); color: var(--red); }
+.rv-item-cat select.cat-WINE { background: rgba(191,90,242,0.15); color: var(--purple); }
+.rv-item-cat select.cat-NA_BEVERAGES { background: var(--blue-soft); color: var(--blue); }
+.rv-item-cat select.cat-NON_COGS { background: rgba(255,255,255,0.06); color: var(--text3); }
+
+.rv-item-price {
+  font-size: 16px; font-weight: 700; letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+.rv-item-unit { font-size: 11px; color: var(--text3); text-align: right; }
+
+/* ── Confirm Button ── */
+.rv-confirm {
+  margin: 20px; padding: 16px;
+  border-radius: 14px; border: none;
+  background: linear-gradient(135deg, var(--green), #2DD4A0);
+  color: #fff; font-size: 17px; font-weight: 700;
+  font-family: var(--font); cursor: pointer;
+  width: calc(100% - 40px);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: 0 2px 12px rgba(48,209,88,0.2);
+  transition: all 0.2s;
+}
+.rv-confirm:active { transform: scale(0.97); }
+.rv-cancel {
+  display: block; text-align: center; padding: 12px;
+  color: var(--red); font-size: 14px; font-weight: 600;
+  cursor: pointer; font-family: var(--font);
+  background: none; border: none; width: 100%;
+}
+
+/* ── History View ── */
+.history-view { display: none; }
+.history-view.active { display: block; }
+
+/* Search & Controls */
+.search-bar {
+  width: 100%; padding: 12px 16px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; color: var(--text);
+  font-size: 14px; font-family: var(--font); font-weight: 500;
+  transition: border-color 0.2s;
+}
+.search-bar:focus { outline: none; border-color: var(--blue); }
+.search-bar::placeholder { color: var(--text3); }
+
+.hist-controls {
+  display: flex; gap: 8px; padding: 8px 20px 12px;
+}
+.hist-select {
+  flex: 1; padding: 10px 12px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 10px; color: var(--text2);
+  font-size: 12px; font-weight: 500; font-family: var(--font);
+  cursor: pointer; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%23999' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+  padding-right: 32px;
+}
+
+.hist-filters {
+  display: flex; gap: 6px; padding: 8px 20px 16px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+}
+.hist-pill {
+  padding: 8px 16px; border-radius: 20px;
+  background: var(--bg-card); border: 1.5px solid var(--border);
+  color: var(--text2); font-size: 12px; font-weight: 600;
+  font-family: var(--font); cursor: pointer; white-space: nowrap;
+  transition: all 0.2s;
+}
+.hist-pill.active {
+  background: var(--bg-elevated); border-color: var(--text);
+  color: var(--text);
+}
+
+.hist-item {
+  margin: 0 20px 8px; padding: 16px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  border-radius: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: all 0.2s;
+}
+.hist-item:active { transform: scale(0.98); background: var(--bg-card); }
+.hist-vendor { font-size: 15px; font-weight: 600; letter-spacing: -0.2px; }
+.hist-meta { font-size: 12px; color: var(--text3); margin-top: 4px; }
+.hist-right { text-align: right; }
+.hist-total { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
+.hist-status {
+  display: inline-block; padding: 3px 8px; border-radius: 6px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.5px; margin-top: 4px;
+}
+.status-pending { background: var(--orange-soft); color: var(--orange); }
+.status-confirmed { background: var(--green-soft); color: var(--green); }
+
+.hist-empty {
+  text-align: center; padding: 80px 20px; color: var(--text3);
+}
+.hist-empty-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.5; }
+.hist-empty-text { font-size: 15px; font-weight: 500; }
+
+/* ── Reports View ── */
+.reports-view { display: none; }
+.reports-view.active { display: block; }
+
+.reports-tabs {
+  display: flex; gap: 6px; padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.report-tab {
+  flex: 1; padding: 10px; border-radius: 10px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  color: var(--text2); font-size: 12px; font-weight: 600;
+  font-family: var(--font); cursor: pointer;
+  transition: all 0.2s;
+}
+.report-tab.active {
+  background: var(--red-soft); border-color: rgba(255,69,58,0.4);
+  color: var(--red);
+}
+
+.report-card {
+  margin: 12px 20px; padding: 16px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+.report-card-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 10px;
+}
+.report-card-title {
+  font-size: 15px; font-weight: 600; letter-spacing: -0.2px;
+}
+.report-card-value {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.5px;
+  color: var(--green);
+}
+.report-bar {
+  height: 6px; background: rgba(255,255,255,0.05);
+  border-radius: 3px; margin-top: 8px; overflow: hidden;
+}
+.report-bar-fill {
+  height: 100%; border-radius: 3px;
+  background: linear-gradient(90deg, var(--red), var(--orange));
+  transition: width 0.5s ease;
+}
+.report-meta {
+  font-size: 11px; color: var(--text3); margin-top: 6px;
+}
+
+/* ── Bottom Nav ── */
+.bottom-nav {display:none !important;
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  padding: 8px 20px calc(var(--safe-bottom) + 8px);
+  background: rgba(28,28,30,0.85);
+  backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+  border-top: 1px solid var(--border);
+  display: flex; gap: 8px;
+}
+.nav-tab {
+  flex: 1; padding: 10px; border-radius: 14px;
+  background: transparent; border: none;
+  color: var(--text3); font-size: 11px; font-weight: 600;
+  font-family: var(--font); cursor: pointer;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 4px;
+  transition: all 0.25s;
+}
+.nav-tab .nav-icon { width: 24px; height: 24px; }
+.nav-tab.active { color: var(--red); }
+
+/* ── Toast Notification ── */
+.toast {
+  position: fixed; top: calc(var(--safe-top) + 80px);
+  left: 50%; transform: translateX(-50%) translateY(-20px);
+  padding: 12px 24px; border-radius: 14px;
+  background: var(--bg-elevated);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  color: var(--text); font-size: 14px; font-weight: 500;
+  z-index: 300; opacity: 0; pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-in { animation: fadeUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+/* ── Desktop ── */
+@media (min-width: 768px) {
+  .content { max-width: 600px; margin: 0 auto; }
+  .bottom-nav {display:none !important; max-width: 600px; left: 50%; transform: translateX(-50%); border-radius: 16px 16px 0 0; }
+  .header { backdrop-filter: blur(40px); }
+  .processing { backdrop-filter: blur(30px); }
+  .scan-zone { aspect-ratio: 16/9; }
+  .rv-item { cursor: default; }
+  .hist-item:hover { border-color: var(--border-focus); background: var(--bg-card); }
+}
+
+@media (min-width: 1024px) {
+  .content { max-width: 700px; }
+  .bottom-nav {display:none !important; max-width: 700px; }
+  .rv-card { padding: 24px; }
+  .rv-item { padding: 16px 20px; }
+  .hist-item { padding: 18px 20px; }
+}
+
+/* Mobile: Make page tabs more visible and accessible */
+@media(max-width:768px){
+  .sidebar{display:none}
+  .layout{display:block;height:auto}
+  .main-content{width:100%}
+  .header{padding:12px 16px}
+  .hdr-title{font-size:15px}
+  .hdr-sub{font-size:10px}
+  .hdr-btn{padding:6px 10px;font-size:11px}
+
+  .page-tabs{
+    position:sticky;
+    top:56px;
+    z-index:99;
+    background:rgba(28,28,30,0.98);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    padding:10px 16px;
+    gap:6px;
+  }
+  .page-tab{
+    font-size:13px;
+    padding:8px 14px;
+  }
+
+  .content{
+    padding:calc(var(--safe-top) + 120px) 0 calc(80px + var(--safe-bottom));
+  }
+
+  .loc-picker{padding:16px}
+  .loc-pill{font-size:14px;padding:10px}
+}
+</style>
+<link rel="stylesheet" href="/static/sidebar.css">
+</head>
+<body>
+<div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:34px;height:34px;background:linear-gradient(135deg,var(--red),#FF6259);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;box-shadow:0 4px 12px rgba(255,69,58,0.3)">RN</div>
+        <div>
+          <div style="font-size:17px;font-weight:700;letter-spacing:-0.3px">Invoice Scanner</div>
+          <div style="font-size:11px;color:var(--text3);font-weight:500;letter-spacing:0.5px;text-transform:uppercase">Snap · Review · Save</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Page Navigation Tabs -->
+    <nav class="page-tabs">
+      <a href="/" class="page-tab">Analytics</a>
+      <a href="/manage" class="page-tab">Management</a>
+      <a href="/invoices" class="page-tab active">Invoices</a>
+      <a href="/catalog" class="page-tab">Catalog</a>
+      <select id="global-location" onchange="setGlobalLocation(this.value)" style="margin-left:auto;padding:6px 12px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-weight:600;cursor:pointer">
+        <option value="dennis">📍 Dennis Port</option>
+        <option value="chatham">📍 Chatham</option>
+      </select>
+    </nav>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Processing Overlay -->
+<div class="processing" id="processing">
+  <div class="proc-ring"></div>
+  <div class="proc-text" id="procText">Analyzing Invoice</div>
+  <div class="proc-sub" id="procSub">Claude is reading every line item...</div>
+</div>
+
+<!-- Content -->
+<div class="content">
+
+  <!-- ── Scan View ── -->
+  <div class="scan-view" id="scanView">
+    <div class="loc-picker">
+      <button class="loc-pill active" data-loc="dennis" onclick="setLoc(this)">Dennis Port</button>
+      <button class="loc-pill" data-loc="chatham" onclick="setLoc(this)">Chatham</button>
+    </div>
+
+    <div class="scan-section">
+      <div class="scan-zone" id="scanZone" onclick="document.getElementById('fileInput').click()">
+        <div class="scan-prompt">
+          <div class="scan-prompt-icon"><svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"/><path d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z"/></svg></div>
+          <div class="scan-prompt-title">Scan Invoice</div>
+          <div class="scan-prompt-sub">Tap to take photo or upload file</div>
+        </div>
+        <img id="previewImg" style="display:none">
+      </div>
+    </div>
+
+    <input type="file" id="fileInput" accept="image/*,application/pdf" capture="environment" onchange="handleFile(this)">
+    <input type="file" id="batchInput" accept="image/*,application/pdf" multiple onchange="handleBatchFiles(this)">
+
+    <div class="scan-actions">
+      <button class="action-btn btn-camera" onclick="document.getElementById('fileInput').click()">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"/><path d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z"/></svg> Camera
+      </button>
+      <button class="action-btn btn-upload" onclick="document.getElementById('batchInput').click()">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg> Batch
+      </button>
+      <button class="action-btn btn-scan" id="scanBtn" disabled onclick="processInvoice()">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"/></svg> Scan
+      </button>
+    </div>
+    <input type="file" id="galleryInput" accept="image/*,application/pdf" onchange="handleFile(this)">
+  </div>
+
+  <!-- ── Review View ── -->
+  <div class="review-view" id="reviewView">
+    <div class="rv-header">
+      <div class="rv-title">Review Invoice</div>
+      <button class="rv-back" onclick="backToScan()">← Back</button>
+      <button class="rv-delete" onclick="deleteInvoice()" style="background:#dc3545;color:#fff;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;margin-left:8px">🗑 Delete</button>
+    </div>
+
+    <div id="validationBanner" style="display:none;margin:16px 20px 0;padding:12px 16px;border-radius:10px;font-size:13px;line-height:1.6"></div>
+
+    <div class="rv-card">
+      <div class="rv-field-row">
+        <div class="rv-field" style="flex:2">
+          <div class="rv-label">Vendor</div>
+          <input class="rv-input" id="rvVendor">
+        </div>
+        <div class="rv-field" style="flex:1">
+          <div class="rv-label">Total</div>
+          <input class="rv-input rv-total-input" id="rvTotal">
+        </div>
+      </div>
+      <div class="rv-field-row">
+        <div class="rv-field">
+          <div class="rv-label">Invoice #</div>
+          <input class="rv-input" id="rvInvNum">
+        </div>
+        <div class="rv-field">
+          <div class="rv-label">Date</div>
+          <input class="rv-input" id="rvDate" type="date">
+        </div>
+      </div>
+      <div class="rv-field-row">
+        <div class="rv-field">
+          <div class="rv-label">Subtotal</div>
+          <input class="rv-input" id="rvSubtotal">
+        </div>
+        <div class="rv-field">
+          <div class="rv-label">Tax</div>
+          <input class="rv-input" id="rvTax">
+        </div>
+      </div>
+      <div class="rv-field-row">
+        <div class="rv-field" style="flex:2">
+          <div class="rv-label">Location</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <select class="rv-input" id="rvLocation" style="flex:1;appearance:none;-webkit-appearance:none;cursor:pointer">
+              <option value="dennis">📍 Dennis Port</option>
+              <option value="chatham">📍 Chatham</option>
+            </select>
+            <span id="rvLocationBadge" style="display:none;font-size:11px;color:#22c55e;font-weight:700;background:rgba(34,197,94,0.12);padding:3px 8px;border-radius:10px;white-space:nowrap;flex-shrink:0">auto-detected</span>
+          </div>
+        </div>
+        <div class="rv-field">
+          <div class="rv-label">Fees / Other</div>
+          <div id="rvFees" style="padding:10px 0;font-size:15px;color:#f59e0b;font-weight:600">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rv-items-title" id="rvItemsTitle">Line Items</div>
+    <div id="rvItems"></div>
+
+    <button class="rv-confirm" id="rvConfirmBtn" onclick="confirmInvoice()">Confirm & Save</button>
+    <button class="rv-confirm" id="rvMarkPaidBtn" style="display:none;background:linear-gradient(135deg,#f59e0b,#f97316)" onclick="openMarkPaid()">&#128179; Mark as Paid</button>
+    <div id="rvPaidStatus" style="display:none;margin:0 20px 8px;padding:12px 16px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:12px;color:#22c55e;font-size:14px;font-weight:600;text-align:center"></div>
+    <button class="rv-cancel" onclick="backToScan()">Back</button>
+  </div>
+
+  <!-- ── History View ── -->
+  <div class="history-view" id="historyView">
+    <div style="padding:16px 20px 8px">
+      <input type="text" class="search-bar" id="searchBar" placeholder="Search invoices, vendors, amounts..." oninput="searchInvoices()">
+    </div>
+    <div class="hist-controls">
+      <select class="hist-select" id="sortBy" onchange="loadHistory()">
+        <option value="date_desc">Date (Newest)</option>
+        <option value="date_asc">Date (Oldest)</option>
+        <option value="amount_desc">Amount (High-Low)</option>
+        <option value="amount_asc">Amount (Low-High)</option>
+        <option value="vendor_asc">Vendor (A-Z)</option>
+      </select>
+      <select class="hist-select" id="filterVendor" onchange="loadHistory()">
+        <option value="">All Vendors</option>
+      </select>
+    </div>
+    <div class="hist-filters">
+      <button class="hist-pill active" onclick="filterHist(this,'all')">All</button>
+      <button class="hist-pill" onclick="filterHist(this,'pending')">Pending</button>
+      <button class="hist-pill" onclick="filterHist(this,'confirmed')">Confirmed</button>
+    </div>
+    <div class="hist-filters" style="padding-top:0">
+      <button class="hist-pill active" id="pp-all" onclick="filterPayment(this,'all')" style="font-size:11px;padding:6px 12px">All Payments</button>
+      <button class="hist-pill" id="pp-unpaid" onclick="filterPayment(this,'unpaid')" style="font-size:11px;padding:6px 12px">Unpaid</button>
+      <button class="hist-pill" id="pp-paid" onclick="filterPayment(this,'paid')" style="font-size:11px;padding:6px 12px">Paid</button>
+    </div>
+    <div id="histList"></div>
+  </div>
+
+  <!-- ── Reports View ── -->
+  <div class="reports-view" id="reportsView">
+    <div class="reports-tabs">
+      <button class="report-tab active" onclick="switchReport('vendors',this)">By Vendor</button>
+      <button class="report-tab" onclick="switchReport('categories',this)">By Category</button>
+      <button class="report-tab" onclick="switchReport('items',this)">Top Items</button>
+      <button class="report-tab" onclick="switchReport('outstanding',this)">Outstanding</button>
+    </div>
+    <div id="reportContent"></div>
+  </div>
+
+  <!-- ── Mark Paid Modal ── -->
+  <div id="markPaidModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;display:none;align-items:flex-end;justify-content:center">
+    <div style="background:#1c1c1e;border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:24px;padding-bottom:max(24px,env(safe-area-inset-bottom))">
+      <div style="font-size:17px;font-weight:700;margin-bottom:20px">Mark Invoice as Paid</div>
+      <div style="margin-bottom:14px">
+        <div style="font-size:11px;color:#999;text-transform:uppercase;margin-bottom:6px">Payment Date</div>
+        <input type="date" id="payDate" style="width:100%;padding:10px;background:#2c2c2e;border:1px solid #3a3a3c;border-radius:10px;color:#fff;font-size:15px;font-family:inherit">
+      </div>
+      <div style="margin-bottom:14px">
+        <div style="font-size:11px;color:#999;text-transform:uppercase;margin-bottom:6px">Payment Method</div>
+        <select id="payMethod" style="width:100%;padding:10px;background:#2c2c2e;border:1px solid #3a3a3c;border-radius:10px;color:#fff;font-size:15px;font-family:inherit;appearance:none">
+          <option value="check">Check</option>
+          <option value="ach">ACH / Bank Transfer</option>
+          <option value="card">Credit Card</option>
+          <option value="cash">Cash</option>
+        </select>
+      </div>
+      <div style="margin-bottom:20px">
+        <div style="font-size:11px;color:#999;text-transform:uppercase;margin-bottom:6px">Reference # <span style="color:#666;font-size:10px">(optional)</span></div>
+        <input type="text" id="payRef" placeholder="Check #, transaction ID, etc." style="width:100%;padding:10px;background:#2c2c2e;border:1px solid #3a3a3c;border-radius:10px;color:#fff;font-size:15px;font-family:inherit">
+      </div>
+      <button onclick="submitMarkPaid()" style="width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,#22c55e,#2DD4A0);color:#fff;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;margin-bottom:10px">Mark as Paid</button>
+      <button onclick="closeMarkPaid()" style="width:100%;padding:12px;border-radius:12px;border:none;background:none;color:#ef4444;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer">Cancel</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Bottom Nav -->
+<div id="meReviewView" class="me-review" style="display:none">
+  <div class="me-rv-header"><div class="me-rv-title">Invoice Review</div><button class="me-rv-back" onclick="closeMeReview()">&larr; Back</button></div>
+  <div class="me-rv-info" id="meRvInfo"></div>
+  <table class="me-rv-table"><thead><tr><th>Product</th><th style="text-align:center">Qty</th><th style="text-align:right">Unit Price</th><th style="text-align:right">Total</th><th>Category</th></tr></thead><tbody id="meRvItems"></tbody></table>
+  <div class="me-rv-actions"><button class="me-rv-btn me-rv-btn-cancel" onclick="closeMeReview()">Back</button><button class="me-rv-btn me-rv-btn-save" onclick="approveInvoice()">&#10003; Approve Invoice</button></div>
+</div>
+<nav class="bottom-nav">
+  <button class="nav-tab active" onclick="showView('scan',this)">
+    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" class="nav-icon"><path d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"/><path d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z"/></svg>Scan
+  </button>
+  <button class="nav-tab" onclick="showView('history',this)">
+    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" class="nav-icon"><path d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>History
+  </button>
+  <button class="nav-tab" onclick="showView('reports',this)">
+    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" class="nav-icon"><path d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>Reports
+  </button>
+</nav>
+
+<script>
+// ── State ──
+let currentLoc = 'dennis';
+let currentImage = null;
+let currentMime = 'image/jpeg';
+let currentInvoice = null;
+let histFilter = 'all';
+let paymentFilter = 'all';
+let allInvoices = [];
+let currentReport = 'vendors';
+const fmt = n => '$' + Number(n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+// ── Helpers ──
+function $(id) { return document.getElementById(id); }
+function toast(msg) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── View Switching ──
+function showView(view, btn) {
+  // 'pending' is history view with the Pending filter pre-applied
+  let effectiveView = view;
+  if (view === 'pending') {
+    effectiveView = 'history';
+    histFilter = 'pending';
+    document.querySelectorAll('.hist-filters .hist-pill').forEach(p => {
+      p.classList.toggle('active', (p.getAttribute('onclick') || '').includes("'pending'"));
+    });
+  }
+  window.location.hash = view;
+  $('scanView').classList.toggle('hidden', effectiveView !== 'scan');
+  $('historyView').classList.toggle('active', effectiveView === 'history');
+  $('reportsView').classList.toggle('active', effectiveView === 'reports');
+  $('reviewView').classList.remove('active');
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  if (effectiveView === 'history') loadHistory();
+  if (effectiveView === 'reports') loadReports();
+}
+
+function backToScan() {
+  $('reviewView').classList.remove('active');
+  $('scanView').classList.remove('hidden');
+}
+
+// ── Location ──
+function setLoc(btn) {
+  localStorage.setItem("globalLocation", btn.dataset.loc);
+  var rnSel=document.getElementById("rn-location");if(rnSel)rnSel.value=btn.dataset.loc;
+  document.querySelectorAll('.loc-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  currentLoc = btn.dataset.loc;
+  window.currentLocation = btn.dataset.loc;
+  if ($('historyView') && $('historyView').classList.contains('active')) loadHistory();
+}
+function setGlobalLocation(val) {
+  window.currentLocation = val;
+  localStorage.setItem("globalLocation", val);
+  loadHistory();
+}
+
+// ── File Handling ──
+function handleFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  if (file.name.toLowerCase().endsWith('.pdf')) {
+    currentMime = 'application/pdf';
+  } else if (file.name.toLowerCase().endsWith('.png')) {
+    currentMime = 'image/png';
+  } else {
+    currentMime = 'image/jpeg';
+  }
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    const dataUrl = e.target.result;
+    currentImage = dataUrl.split(',')[1];
+
+    const zone = $('scanZone');
+    zone.classList.add('has-image');
+
+    if (currentMime === 'application/pdf') {
+      $('previewImg').style.display = 'none';
+      zone.innerHTML = `<div class="pdf-preview"><div class="pdf-icon"><svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg></div><div class="pdf-name">${file.name}</div></div><div class="scan-prompt"><div class="scan-prompt-icon"><svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"/><path d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z"/></svg></div><div class="scan-prompt-title">Scan Invoice</div><div class="scan-prompt-sub">Tap to take photo or upload</div></div>`;
+    } else {
+      $('previewImg').src = dataUrl;
+      $('previewImg').style.display = 'block';
+    }
+    $('scanBtn').disabled = false;
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+
+// ── Batch File Handling ──
+let batchQueue = [];
+let batchResults = {success: [], failed: [], duplicates: [], unreadable: []};
+
+async function handleBatchFiles(input) {
+  const files = Array.from(input.files);
+  if (!files.length) return;
+
+  batchQueue = files;
+  batchResults = {success: [], failed: [], duplicates: [], unreadable: []};
+
+  $('processing').classList.add('active');
+  $('procText').textContent = 'Batch Processing';
+  $('procSub').textContent = `Processing 0 of ${files.length} invoices...`;
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    $('procSub').textContent = `Processing ${i+1} of ${files.length}: ${file.name}`;
+
+    try {
+      const result = await processBatchFile(file);
+      if (result.status === 'duplicate') {
+        batchResults.duplicates.push({file: file.name, ...result});
+      } else if (result.status === 'unreadable') {
+        batchResults.unreadable.push({file: file.name, ...result});
+      } else {
+        batchResults.success.push({file: file.name, invoice_id: result.invoice_id});
+      }
+    } catch (e) {
+      batchResults.failed.push({file: file.name, error: e.message});
+    }
+
+    // Small delay between requests
+    if (i < files.length - 1) await new Promise(r => setTimeout(r, 500));
+  }
+
+  $('processing').classList.remove('active');
+  showBatchResults();
+  input.value = '';
+}
+
+async function processBatchFile(file) {
+  return new Promise((resolve, reject) => {
+    let mime = 'image/jpeg';
+    if (file.name.toLowerCase().endsWith('.pdf')) mime = 'application/pdf';
+    else if (file.name.toLowerCase().endsWith('.png')) mime = 'image/png';
+
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      try {
+        const dataUrl = e.target.result;
+        const base64 = dataUrl.split(',')[1];
+
+        const body = new FormData();
+        const byteChars = atob(base64);
+        const byteArr = new Uint8Array(byteChars.length);
+        for (let i = 0; i < byteChars.length; i++) byteArr[i] = byteChars.charCodeAt(i);
+
+        const ext = mime === 'application/pdf' ? 'pdf' : mime === 'image/png' ? 'png' : 'jpg';
+        body.append('file', new Blob([byteArr], {type: mime}), `invoice.${ext}`);
+        body.append('location', currentLoc);
+
+        const resp = await fetch('/api/invoices/scan', {method: 'POST', body});
+        const data = await resp.json();
+
+        if (resp.status === 409) {
+          resolve({status: 'duplicate', ...data});
+        } else if (resp.status === 400 && data.status === 'unreadable') {
+          resolve({status: 'unreadable', ...data});
+        } else if (data.error) {
+          reject(new Error(data.error));
+        } else {
+          resolve({status: 'success', invoice_id: data.invoice_id, data: data.data});
+        }
+      } catch (err) {
+        reject(err);
+      }
+    };
+    reader.onerror = () => reject(new Error('Failed to read file'));
+    reader.readAsDataURL(file);
+  });
+}
+
+function showBatchResults() {
+  const {success, failed, duplicates, unreadable} = batchResults;
+  const total = success.length + failed.length + duplicates.length + unreadable.length;
+
+  let msg = `Batch complete: ${success.length}/${total} processed`;
+  if (duplicates.length) msg += `, ${duplicates.length} duplicates`;
+  if (unreadable.length) msg += `, ${unreadable.length} unreadable`;
+  if (failed.length) msg += `, ${failed.length} errors`;
+
+  toast(msg);
+
+  // If we have successful uploads, reload history
+  if (success.length > 0 && window.location.hash === '#history') {
+    loadHistory();
+  }
+}
+
+// ── Process Invoice ──
+async function processInvoice() {
+  if (!currentImage) return;
+  $('processing').classList.add('active');
+
+  try {
+    const body = new FormData();
+    const byteChars = atob(currentImage);
+    const byteArr = new Uint8Array(byteChars.length);
+    for (let i = 0; i < byteChars.length; i++) byteArr[i] = byteChars.charCodeAt(i);
+
+    const ext = currentMime === 'application/pdf' ? 'pdf' : currentMime === 'image/png' ? 'png' : 'jpg';
+    body.append('file', new Blob([byteArr], {type: currentMime}), `invoice.${ext}`);
+    body.append('location', currentLoc);
+
+    const resp = await fetch('/api/invoices/scan', {method:'POST', body});
+    const data = await resp.json();
+
+    if (data.error) throw new Error(data.error);
+
+    // Check for auto-confirmed status
+    if (data.status === 'auto_confirmed') {
+      toast(data.message || 'Invoice auto-confirmed ✅', 'success');
+      backToScan();
+      loadHistory();
+      return;
+    }
+
+    // Show review screen (status === 'needs_review' or 'ok')
+    currentInvoice = data.data || data;
+    currentInvoice.id = data.invoice_id || currentInvoice.id;
+    currentInvoice.validation = data.validation; // Store validation data
+    showReview(currentInvoice);
+  } catch(e) {
+    toast('Error: ' + e.message);
+  } finally {
+    $('processing').classList.remove('active');
+  }
+}
+
+// ── Review ──
+function deleteInvoice() {
+  if (!currentInvoice || !currentInvoice.id) return;
+  const modal = document.createElement("div");
+  modal.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:9999";
+  modal.innerHTML = `<div style="background:var(--card-bg,#1e1e1e);border-radius:12px;padding:24px;max-width:400px;width:90%;text-align:center">
+    <div style="font-size:18px;font-weight:700;margin-bottom:8px;color:var(--text,#fff)">Delete Invoice?</div>
+    <div style="color:var(--text-secondary,#aaa);margin-bottom:20px">${currentInvoice.vendor_name || "Unknown"} — $${(currentInvoice.total||0).toFixed(2)}<br>This cannot be undone.</div>
+    <div style="display:flex;gap:12px;justify-content:center">
+      <button onclick="this.closest(\x27div[style*=fixed]\x27).remove()" style="padding:10px 24px;border-radius:8px;border:1px solid var(--border,#333);background:transparent;color:var(--text,#fff);cursor:pointer;font-weight:600">Cancel</button>
+      <button onclick="confirmDelete(${currentInvoice.id},this.closest(\x27div[style*=fixed]\x27))" style="padding:10px 24px;border-radius:8px;border:none;background:#dc3545;color:#fff;cursor:pointer;font-weight:600">Delete</button>
+    </div></div>`;
+  document.body.appendChild(modal);
+}
+async function confirmDelete(id, modal) {
+  try {
+    const resp = await fetch("/api/invoices/" + id, {method:"DELETE"});
+    if (resp.ok) {
+      modal.remove();
+      backToScan();
+      loadHistory();
+      showToast("Invoice deleted", "success");
+    } else {
+      const err = await resp.json();
+      showToast(err.error || "Delete failed", "error");
+    }
+  } catch(e) { showToast("Delete failed", "error"); }
+}
+function showReview(data) {
+  $('scanView').classList.add('hidden');
+  $('reviewView').classList.add('active');
+
+  // Show validation banner if there are issues
+  const validation = data.validation;
+  const banner = $('validationBanner');
+  if (validation && validation.issues && validation.issues.length > 0) {
+    banner.innerHTML = '⚠️ ' + validation.issues.map(i => '<div>' + i + '</div>').join('');
+    banner.style.display = 'block';
+    banner.style.background = 'rgba(245,158,11,0.12)';
+    banner.style.border = '1px solid rgba(245,158,11,0.3)';
+    banner.style.color = '#f59e0b';
+  } else {
+    banner.style.display = 'none';
+  }
+
+  $('rvVendor').value = data.vendor_name || '';
+  $('rvTotal').value = (parseFloat(data.total)||0).toFixed(2);
+  $('rvInvNum').value = data.invoice_number || '';
+  $('rvDate').value = data.invoice_date || '';
+  $('rvSubtotal').value = data.subtotal ? parseFloat(data.subtotal).toFixed(2) : '';
+  $('rvTax').value = data.tax ? parseFloat(data.tax).toFixed(2) : '';
+  var fees = (parseFloat(data.total)||0) - (parseFloat(data.subtotal)||0) - (parseFloat(data.tax)||0);
+  $("rvFees").textContent = fees > 0.01 ? "$" + fees.toFixed(2) : "—";
+
+  // Auto-select location if OCR detected it from ship-to address
+  var rvLoc = $('rvLocation');
+  var rvBadge = $('rvLocationBadge');
+  if (data.detected_location) {
+    rvLoc.value = data.detected_location;
+    rvBadge.style.display = 'inline';
+  } else {
+    rvLoc.value = data.location || currentLoc;
+    rvBadge.style.display = 'none';
+  }
+  // Hide badge when user manually changes location
+  rvLoc.onchange = function() { rvBadge.style.display = 'none'; };
+
+  const items = data.line_items || [];
+  $('rvItemsTitle').textContent = `Line Items (${items.length})`;
+
+  $('rvItems').innerHTML = items.map((item, i) => {
+    const cat = item.category || item.category_type || 'FOOD';
+    return `
+      <div class="rv-item animate-in" id="rv-item-${i}" style="animation-delay:${i * 0.03}s">
+        <div class="rv-item-info">
+          <div class="rv-item-name">${item.product_name || 'Unknown'}</div>
+          ${item.description ? `<div class="rv-item-desc">${item.description}</div>` : ''}
+          <div class="rv-item-qty">${item.quantity||0} × ${item.unit||'ea'} @ ${fmt(item.unit_price)}</div>
+        </div>
+        <div class="rv-item-cat">
+          <select class="cat-${cat}" onchange="updateCat(${i},this)">
+            <option value="FOOD" ${cat==='FOOD'?'selected':''}>Food</option>
+            <option value="BEER" ${cat==='BEER'?'selected':''}>Beer</option>
+            <option value="LIQUOR" ${cat==='LIQUOR'?'selected':''}>Liquor</option>
+            <option value="WINE" ${cat==='WINE'?'selected':''}>Wine</option>
+            <option value="NA_BEVERAGES" ${cat==='NA_BEVERAGES'?'selected':''}>NA Bev</option>
+            <option value="NON_COGS" ${cat==='NON_COGS'?'selected':''}>Non-COGS</option>
+          </select>
+        </div>
+        <div>
+          <div class="rv-item-price">${fmt(item.total_price)}</div>
+          <div class="rv-item-unit">per: ${fmt(item.unit_price)}</div>
+        </div>
+      </div>`;
+  }).join('');
+
+  // Show correct action buttons based on invoice status + payment
+  const confirmBtn = $('rvConfirmBtn');
+  const markPaidBtn = $('rvMarkPaidBtn');
+  const paidStatus = $('rvPaidStatus');
+  if (data.status === 'confirmed') {
+    confirmBtn.style.display = 'none';
+    if (data.payment_status === 'paid') {
+      markPaidBtn.style.display = 'none';
+      paidStatus.style.display = 'block';
+      paidStatus.textContent = '✓ Paid' + (data.paid_date ? ' on ' + data.paid_date : '') + (data.payment_method ? ' via ' + data.payment_method : '');
+    } else {
+      markPaidBtn.style.display = 'flex';
+      paidStatus.style.display = 'none';
+    }
+  } else {
+    confirmBtn.style.display = 'flex';
+    markPaidBtn.style.display = 'none';
+    paidStatus.style.display = 'none';
+  }
+
+  // Fetch and inject price change alerts for scanned invoices
+  if (data.id && data.source !== 'marginedge') {
+    loadPriceAlerts(data.id);
+  }
+}
+
+async function loadPriceAlerts(invoiceId) {
+  try {
+    const resp = await fetch(`/api/invoices/${invoiceId}/price-alerts`);
+    const alerts = await resp.json();
+    if (!Array.isArray(alerts) || !alerts.length) return;
+
+    // Build lookup map: lowercase product_name → alert
+    const alertMap = {};
+    alerts.forEach(a => { alertMap[a.product_name.toLowerCase()] = a; });
+
+    document.querySelectorAll('.rv-item').forEach(el => {
+      const nameEl = el.querySelector('.rv-item-name');
+      if (!nameEl) return;
+      const alert = alertMap[nameEl.textContent.trim().toLowerCase()];
+      if (!alert) return;
+
+      el.querySelector('.price-alert-badge')?.remove();
+      const up = alert.pct_change > 0;
+      const color = up ? '#ef4444' : '#22c55e';
+      const badge = document.createElement('div');
+      badge.className = 'price-alert-badge';
+      badge.style.cssText = `font-size:11px;font-weight:700;color:${color};margin-top:4px;padding:2px 6px;background:${color}22;border-radius:4px;display:inline-block;`;
+      badge.title = `Was $${alert.previous_price} on ${alert.previous_date}`;
+      badge.textContent = `${up ? '▲' : '▼'} ${up ? '+' : ''}${alert.pct_change}% vs last`;
+      const info = el.querySelector('.rv-item-info');
+      if (info) info.appendChild(badge);
+    });
+  } catch(e) {
+    // price alerts are non-critical
+  }
+}
+
+function updateCat(idx, sel) {
+  if (currentInvoice?.line_items?.[idx]) {
+    currentInvoice.line_items[idx].category = sel.value;
+    currentInvoice.line_items[idx].category_type = sel.value;
+  }
+  sel.className = 'cat-' + sel.value;
+}
+
+// ── Confirm ──
+async function confirmInvoice() {
+  if (!currentInvoice) return;
+
+  currentInvoice.vendor_name = $('rvVendor').value;
+  currentInvoice.total = parseFloat($('rvTotal').value) || 0;
+  currentInvoice.invoice_number = $('rvInvNum').value;
+  currentInvoice.invoice_date = $('rvDate').value;
+  currentInvoice.subtotal = parseFloat($('rvSubtotal').value) || 0;
+  currentInvoice.tax = parseFloat($('rvTax').value) || 0;
+  currentInvoice.location = $('rvLocation').value;
+
+  try {
+    const resp = await fetch(`/api/invoices/${currentInvoice.id}/confirm`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(currentInvoice),
+    });
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error);
+    toast('✓ Invoice saved!');
+    showView('pending');
+    resetScan();
+  } catch(e) {
+    toast('Error: ' + e.message);
+  }
+}
+
+function resetScan() {
+  currentImage = null;
+  currentInvoice = null;
+  $('scanBtn').disabled = true;
+  const zone = $('scanZone');
+  zone.classList.remove('has-image');
+  $('previewImg').style.display = 'none';
+  $('previewImg').src = '';
+  zone.innerHTML = `<div class="scan-prompt"><div class="scan-prompt-icon"><svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"/><path d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z"/></svg></div><div class="scan-prompt-title">Scan Invoice</div><div class="scan-prompt-sub">Tap to take photo or upload file</div></div><img id="previewImg" style="display:none">`;
+}
+
+// ── History ──
+async function loadHistory() {
+  let url = '/api/invoices?limit=100';
+  if (histFilter !== 'all') url += '&status=' + histFilter;
+  const loc = window.currentLocation || localStorage.getItem('globalLocation');
+  if (loc) url += '&location=' + encodeURIComponent(loc);
+
+  try {
+    const resp = await fetch(url);
+    allInvoices = await resp.json();
+
+    // Populate vendor filter
+    const vendors = [...new Set(allInvoices.map(inv => inv.vendor_name).filter(Boolean))].sort();
+    const vendorSelect = $('filterVendor');
+    const currentVendor = vendorSelect.value;
+    vendorSelect.innerHTML = '<option value="">All Vendors</option>' +
+      vendors.map(v => `<option value="${v}" ${v===currentVendor?'selected':''}>${v}</option>`).join('');
+
+    displayFilteredInvoices();
+  } catch(e) {
+    $('histList').innerHTML = `<div class="hist-empty"><div class="hist-empty-icon">⚠️</div><div class="hist-empty-text">Error loading invoices</div></div>`;
+  }
+}
+
+function displayFilteredInvoices() {
+  let filtered = [...allInvoices];
+
+  // Apply vendor filter
+  const vendorFilter = $('filterVendor').value;
+  if (vendorFilter) {
+    filtered = filtered.filter(inv => inv.vendor_name === vendorFilter);
+  }
+
+  // Apply payment filter (client-side; payment_status comes from API)
+  if (paymentFilter !== 'all') {
+    filtered = filtered.filter(inv => {
+      const ps = inv.payment_status || 'unpaid';
+      return ps === paymentFilter;
+    });
+  }
+
+  // Apply search
+  const search = ($('searchBar')?.value || '').toLowerCase();
+  if (search) {
+    filtered = filtered.filter(inv =>
+      (inv.vendor_name || '').toLowerCase().includes(search) ||
+      (inv.invoice_number || '').toLowerCase().includes(search) ||
+      (inv.total || '').toString().includes(search)
+    );
+  }
+
+  // Apply sort
+  const sortBy = $('sortBy').value;
+  filtered.sort((a, b) => {
+    switch(sortBy) {
+      case 'date_desc': return (b.invoice_date || '').localeCompare(a.invoice_date || '');
+      case 'date_asc': return (a.invoice_date || '').localeCompare(b.invoice_date || '');
+      case 'amount_desc': return (b.total || 0) - (a.total || 0);
+      case 'amount_asc': return (a.total || 0) - (b.total || 0);
+      case 'vendor_asc': return (a.vendor_name || '').localeCompare(b.vendor_name || '');
+      default: return 0;
+    }
+  });
+
+  if (!filtered.length) {
+    $('histList').innerHTML = `
+      <div class="hist-empty">
+        <div class="hist-empty-icon">📋</div>
+        <div class="hist-empty-text">No invoices found</div>
+      </div>`;
+    return;
+  }
+
+  $('histList').innerHTML = filtered.map((inv, i) => {
+    const thumb = inv.source === 'scanned'
+      ? `<div onclick="event.stopPropagation();openInvoiceImage(${inv.id},${JSON.stringify(inv.image_path||'')})" title="View invoice"
+             style="flex-shrink:0;width:36px;height:44px;background:#1c1c1e;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-right:10px;border:1px solid #3a3a3c">
+           <svg width="20" height="20" fill="none" stroke="#ef4444" stroke-width="1.5" viewBox="0 0 24 24">
+             <path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
+           </svg>
+         </div>`
+      : '';
+    // Color-code border by payment status for confirmed invoices
+    let borderStyle = '';
+    if (inv.status === 'confirmed') {
+      borderStyle = (inv.payment_status === 'paid')
+        ? 'border-color:#22c55e55;'
+        : 'border-color:#f59e0b55;';
+    }
+    // Payment badge for confirmed invoices
+    const payBadge = inv.status === 'confirmed'
+      ? `<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;${
+          inv.payment_status === 'paid'
+            ? 'background:rgba(34,197,94,0.12);color:#22c55e'
+            : 'background:rgba(245,158,11,0.12);color:#f59e0b'
+        }">${inv.payment_status === 'paid' ? '✓ Paid' : 'Unpaid'}</span>`
+      : '';
+    // Auto-confirmed badge
+    const autoBadge = (inv.status === 'confirmed' && inv.auto_confirmed === 1)
+      ? `<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;background:rgba(34,197,94,0.15);color:#22c55e;margin-left:4px">✓ Auto</span>`
+      : '';
+    return `
+    <div class="hist-item animate-in" style="animation-delay:${Math.min(i*0.04, 1)}s;${borderStyle}" onclick="viewInvoice(${inv.id}, '${inv.source||'scanned'}', '${inv.order_id||''}')">
+      ${thumb}
+      <div style="flex:1;min-width:0">
+        <div class="hist-vendor">${inv.vendor_name || 'Unknown'}</div>
+        <div class="hist-meta">${inv.invoice_number ? '#'+inv.invoice_number+' · ' : ''}${inv.invoice_date || 'No date'} · ${inv.location || ''}</div>
+      </div>
+      <div class="hist-right">
+        <div class="hist-total">${fmt(inv.total)}</div>
+        <span class="hist-status status-${inv.status}">${inv.status}</span>
+        ${payBadge}
+        ${autoBadge}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function searchInvoices() {
+  displayFilteredInvoices();
+}
+
+function filterHist(btn, filter) {
+  histFilter = filter;
+  // Only deactivate pills in the same row (first row = status pills)
+  btn.closest('.hist-filters').querySelectorAll('.hist-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  loadHistory();
+}
+
+function filterPayment(btn, filter) {
+  paymentFilter = filter;
+  btn.closest('.hist-filters').querySelectorAll('.hist-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  displayFilteredInvoices();
+}
+
+// ── Mark Paid ──
+function openMarkPaid() {
+  if (!currentInvoice) return;
+  // Default to today
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('payDate').value = today;
+  document.getElementById('payMethod').value = 'check';
+  document.getElementById('payRef').value = '';
+  const modal = document.getElementById('markPaidModal');
+  modal.style.display = 'flex';
+}
+
+function closeMarkPaid() {
+  document.getElementById('markPaidModal').style.display = 'none';
+}
+
+async function submitMarkPaid() {
+  if (!currentInvoice) return;
+  const paid_date = document.getElementById('payDate').value;
+  const payment_method = document.getElementById('payMethod').value;
+  const payment_reference = document.getElementById('payRef').value.trim();
+  if (!paid_date) { toast('Please enter a payment date'); return; }
+
+  try {
+    const resp = await fetch(`/api/invoices/${currentInvoice.id}/pay`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({paid_date, payment_method, payment_reference: payment_reference || null})
+    });
+    const data = await resp.json();
+    if (data.error) { toast('Error: ' + data.error); return; }
+
+    closeMarkPaid();
+    toast('Invoice marked as paid ✓');
+    // Update currentInvoice and refresh the button state
+    currentInvoice = data.invoice || currentInvoice;
+    currentInvoice.payment_status = 'paid';
+    currentInvoice.paid_date = paid_date;
+    currentInvoice.payment_method = payment_method;
+    // Re-render the action buttons
+    const markPaidBtn = $('rvMarkPaidBtn');
+    const paidStatus = $('rvPaidStatus');
+    if (markPaidBtn) markPaidBtn.style.display = 'none';
+    if (paidStatus) {
+      paidStatus.style.display = 'block';
+      paidStatus.textContent = '✓ Paid on ' + paid_date + ' via ' + payment_method;
+    }
+    // Refresh history if loaded
+    if (allInvoices.length) loadHistory();
+  } catch(e) {
+    toast('Error marking as paid');
+  }
+}
+
+async function viewInvoice(id, source, orderId) {
+  try {
+    let resp, data;
+    if (source === 'marginedge' && orderId) {
+      resp = await fetch('/api/invoices/me/' + orderId);
+      data = await resp.json();
+      data.source = 'marginedge';
+    } else {
+      resp = await fetch('/api/invoices/' + id);
+      data = await resp.json();
+      data.source = 'scanned';
+    }
+    currentInvoice = data;
+    $('historyView').classList.remove('active');
+    if (data.source === 'marginedge') { showMeReview(data); } else { showReview(data); }
+  } catch(e) {
+    console.error(e);
+    toast('Error loading invoice');
+  }
+}
+
+// ── Reports ──
+async function loadReports() {
+  try {
+    const resp = await fetch('/api/invoices?limit=200&status=confirmed');
+    allInvoices = await resp.json();
+    generateReport(currentReport);
+  } catch(e) {
+    $('reportContent').innerHTML = `<div class="hist-empty"><div class="hist-empty-icon">⚠️</div><div class="hist-empty-text">Error loading data</div></div>`;
+  }
+}
+
+function switchReport(type, btn) {
+  currentReport = type;
+  document.querySelectorAll('.report-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  generateReport(type);
+}
+
+function generateReport(type) {
+  if (type === 'outstanding') {
+    generateOutstandingReport();
+    return;
+  }
+  if (!allInvoices.length) {
+    $('reportContent').innerHTML = `<div class="hist-empty"><div class="hist-empty-icon">📊</div><div class="hist-empty-text">No data yet</div></div>`;
+    return;
+  }
+
+  switch(type) {
+    case 'vendors': generateVendorReport(); break;
+    case 'categories': generateCategoryReport(); break;
+    case 'items': generateItemsReport(); break;
+  }
+}
+
+async function generateOutstandingReport() {
+  $('reportContent').innerHTML = `<div class="hist-empty"><div class="hist-empty-icon">⏳</div><div class="hist-empty-text">Loading...</div></div>`;
+  try {
+    const [outResp, sumResp] = await Promise.all([
+      fetch('/api/invoices/outstanding'),
+      fetch('/api/invoices/payment-summary')
+    ]);
+    const outstanding = await outResp.json();
+    const summary = await sumResp.json();
+
+    if (!outstanding.length) {
+      $('reportContent').innerHTML = `<div class="hist-empty"><div class="hist-empty-icon">✅</div><div class="hist-empty-text">No outstanding invoices</div></div>`;
+      return;
+    }
+
+    let html = `
+      <div style="display:flex;gap:12px;padding:16px 0;flex-wrap:wrap">
+        <div style="flex:1;min-width:140px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:12px;padding:14px">
+          <div style="font-size:11px;color:#f59e0b;text-transform:uppercase;font-weight:700;margin-bottom:4px">Total Outstanding</div>
+          <div style="font-size:22px;font-weight:700;color:#f59e0b">${fmt(summary.total_outstanding)}</div>
+        </div>
+        <div style="flex:1;min-width:140px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:12px;padding:14px">
+          <div style="font-size:11px;color:#22c55e;text-transform:uppercase;font-weight:700;margin-bottom:4px">Paid Last 30d</div>
+          <div style="font-size:22px;font-weight:700;color:#22c55e">${fmt(summary.total_paid_30d)}</div>
+        </div>
+      </div>`;
+
+    outstanding.forEach(v => {
+      const invHtml = v.invoices.map(inv => `
+        <div onclick="viewInvoice(${inv.id},'scanned','')" style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;cursor:pointer;border-top:1px solid rgba(255,255,255,0.05)" class="hist-item" style="margin:0;border-radius:0">
+          <div>
+            <div style="font-size:13px">${inv.invoice_number ? '#'+inv.invoice_number : 'No #'}</div>
+            <div style="font-size:11px;color:#666">${inv.date || 'No date'}</div>
+          </div>
+          <div style="font-size:14px;font-weight:700;color:#f59e0b">${fmt(inv.total)}</div>
+        </div>`).join('');
+
+      html += `
+        <div class="report-card" style="margin-bottom:12px;padding:0;overflow:hidden">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:rgba(255,255,255,0.03)">
+            <div style="font-size:15px;font-weight:700">${v.vendor}</div>
+            <div style="text-align:right">
+              <div style="font-size:16px;font-weight:700;color:#f59e0b">${fmt(v.total_outstanding)}</div>
+              <div style="font-size:11px;color:#666">${v.invoice_count} invoice${v.invoice_count>1?'s':''}</div>
+            </div>
+          </div>
+          ${invHtml}
+        </div>`;
+    });
+
+    $('reportContent').innerHTML = html;
+  } catch(e) {
+    $('reportContent').innerHTML = `<div class="hist-empty"><div class="hist-empty-icon">⚠️</div><div class="hist-empty-text">Error loading outstanding data</div></div>`;
+  }
+}
+
+function generateVendorReport() {
+  const vendorTotals = {};
+  allInvoices.forEach(inv => {
+    const vendor = inv.vendor_name || 'Unknown';
+    if (!vendorTotals[vendor]) vendorTotals[vendor] = { total: 0, count: 0 };
+    vendorTotals[vendor].total += inv.total || 0;
+    vendorTotals[vendor].count++;
+  });
+
+  const sorted = Object.entries(vendorTotals).sort((a, b) => b[1].total - a[1].total);
+  const grandTotal = sorted.reduce((sum, [_, data]) => sum + data.total, 0);
+
+  $('reportContent').innerHTML = sorted.map(([vendor, data], i) => {
+    const pct = (data.total / grandTotal * 100).toFixed(1);
+    return `
+      <div class="report-card animate-in" style="animation-delay:${i*0.04}s">
+        <div class="report-card-header">
+          <div class="report-card-title">${vendor}</div>
+          <div class="report-card-value">${fmt(data.total)}</div>
+        </div>
+        <div class="report-bar">
+          <div class="report-bar-fill" style="width:${pct}%"></div>
+        </div>
+        <div class="report-meta">${data.count} invoices · ${pct}% of total spending</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function generateCategoryReport() {
+  const categoryTotals = {};
+  allInvoices.forEach(inv => {
+    (inv.line_items || []).forEach(item => {
+      const cat = item.category_type || item.category || 'FOOD';
+      if (!categoryTotals[cat]) categoryTotals[cat] = 0;
+      categoryTotals[cat] += item.total_price || 0;
+    });
+  });
+
+  const sorted = Object.entries(categoryTotals).sort((a, b) => b[1] - a[1]);
+  const grandTotal = sorted.reduce((sum, [_, total]) => sum + total, 0);
+
+  const catColors = {
+    FOOD: 'var(--green)', BEER: 'var(--orange)', LIQUOR: 'var(--red)',
+    WINE: 'var(--purple)', NA_BEVERAGES: 'var(--blue)', NON_COGS: 'var(--text3)'
+  };
+
+  $('reportContent').innerHTML = sorted.map(([cat, total], i) => {
+    const pct = (total / grandTotal * 100).toFixed(1);
+    return `
+      <div class="report-card animate-in" style="animation-delay:${i*0.04}s">
+        <div class="report-card-header">
+          <div class="report-card-title"><span class="rv-category cat-${cat}">${cat.replace('_',' ')}</span></div>
+          <div class="report-card-value">${fmt(total)}</div>
+        </div>
+        <div class="report-bar">
+          <div class="report-bar-fill" style="width:${pct}%;background:${catColors[cat]||'var(--red)'}"></div>
+        </div>
+        <div class="report-meta">${pct}% of total COGS</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function generateItemsReport() {
+  const itemTotals = {};
+  allInvoices.forEach(inv => {
+    (inv.line_items || []).forEach(item => {
+      const name = item.product_name || 'Unknown';
+      if (!itemTotals[name]) itemTotals[name] = { total: 0, qty: 0, cat: item.category_type || 'FOOD' };
+      itemTotals[name].total += item.total_price || 0;
+      itemTotals[name].qty += item.quantity || 0;
+    });
+  });
+
+  const sorted = Object.entries(itemTotals).sort((a, b) => b[1].total - a[1].total).slice(0, 30);
+  const grandTotal = sorted.reduce((sum, [_, data]) => sum + data.total, 0);
+
+  $('reportContent').innerHTML = sorted.map(([item, data], i) => {
+    const pct = (data.total / grandTotal * 100).toFixed(1);
+    return `
+      <div class="report-card animate-in" style="animation-delay:${i*0.04}s">
+        <div class="report-card-header">
+          <div class="report-card-title">${item}</div>
+          <div class="report-card-value">${fmt(data.total)}</div>
+        </div>
+        <div class="report-bar">
+          <div class="report-bar-fill" style="width:${pct}%"></div>
+        </div>
+        <div class="report-meta">${data.qty.toFixed(1)} units · <span class="rv-category cat-${data.cat}">${data.cat}</span></div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ── Init ──
+window.currentLocation = localStorage.getItem("globalLocation") || "dennis";
+var glSel = document.getElementById("global-location");
+if (glSel) glSel.value = window.currentLocation;
+const h = window.location.hash.replace('#','');
+if (h === 'list') {
+  showView('history', document.querySelectorAll('.nav-tab')[1]);
+} else if (h === 'reports') {
+  showView('reports', document.querySelectorAll('.nav-tab')[2]);
+}
+loadHistory();
+
+// Drag & drop
+const zone = $('scanZone');
+['dragenter','dragover'].forEach(e => zone.addEventListener(e, ev => { ev.preventDefault(); zone.classList.add('dragover'); }));
+['dragleave','drop'].forEach(e => zone.addEventListener(e, ev => { ev.preventDefault(); zone.classList.remove('dragover'); }));
+zone.addEventListener('drop', ev => {
+  const file = ev.dataTransfer.files[0];
+  if (file) {
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    $('fileInput').files = dt.files;
+    handleFile($('fileInput'));
+  }
+});
+</script>
+  </div><!-- /main-content -->
+</div><!-- /layout -->
+<script src="/static/sidebar.js"></script>
+
+<script>
+// sidebar-init-hook: Show correct view based on sidebar selection
+document.addEventListener('DOMContentLoaded', function() {
+  var h = window.location.hash.replace('#','');
+  if (h && typeof showView === 'function') {
+    setTimeout(function() { showView(h); }, 100);
+  }
+  // Also check localStorage
+  var saved = localStorage.getItem('invoiceView');
+  if (saved && typeof showView === 'function') {
+    setTimeout(function() { showView(saved); }, 150);
+  }
+});
+
+function showMeReview(data) {
+  console.log('showMeReview called', data.vendor_name, data.items ? data.items.length : 0);
+  document.querySelectorAll('.scan-view,.history-view,.reports-view,.review-view,.scan-section,.bottom-nav').forEach(function(v){v.style.display='none';});
+  var rv = $('meReviewView');
+  rv.style.display = 'block';
+  rv.style.minHeight = '500px';
+  var mainScroll = document.querySelector('.rn-main'); if(mainScroll) mainScroll.scrollTop = 0;
+  var total = data.order_total || data.total || 0;
+  var itemTotal = 0;
+  (data.items || []).forEach(function(it) { itemTotal += (it.total_price || 0); });
+  var diff = Math.abs(total - itemTotal);
+  var diffHtml = diff > 0.01 ? '<div class="me-rv-field"><label>Difference</label><div class="val" style="color:#FF453A">$' + diff.toFixed(2) + '</div></div>' : '';
+  $('meRvInfo').innerHTML =
+    '<div class="me-rv-field"><label>Vendor</label><div class="val">' + (data.vendor_name || 'Unknown') + '</div></div>' +
+    '<div class="me-rv-field"><label>Invoice #</label><div class="val">' + (data.invoice_number || 'N/A') + '</div></div>' +
+    '<div class="me-rv-field"><label>Date</label><div class="val">' + (data.invoice_date || 'N/A') + '</div></div>' +
+    '<div class="me-rv-field"><label>Invoice Total</label><div class="val">$' + Number(total).toFixed(2) + '</div></div>' +
+    '<div class="me-rv-field"><label>Line Item Total</label><div class="val">$' + itemTotal.toFixed(2) + '</div></div>' +
+    diffHtml;
+  var items = data.items || [];
+  if (!items.length) {
+    $('meRvItems').innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:rgba(245,245,247,0.5)">No line items found</td></tr>';
+    return;
+  }
+  $('meRvItems').innerHTML = items.map(function(item, i) {
+    return '<tr>' +
+      '<td>' + (item.product_name || '') + '</td>' +
+      '<td style="text-align:center">' + (item.quantity || 0) + '</td>' +
+      '<td class="me-rv-total">$' + Number(item.unit_price || 0).toFixed(2) + '</td>' +
+      '<td class="me-rv-total">$' + Number(item.total_price || 0).toFixed(2) + '</td>' +
+      '<td>' + (item.category_type || '') + '</td>' +
+      '</tr>';
+  }).join('');
+}
+function closeMeReview() {
+  $('meReviewView').style.display = 'none';
+  document.querySelectorAll('.scan-view,.history-view,.reports-view,.review-view').forEach(function(v){v.style.display='';});
+  showView('history');
+}
+function approveInvoice() {
+  if (!currentInvoice) return;
+  var orderId = currentInvoice.order_id;
+  fetch('/api/invoices/me/' + orderId + '/approve', {method:'POST'})
+    .then(function(r){return r.json()})
+    .then(function(d){
+      toast('Invoice approved');
+      closeMeReview();
+    }).catch(function(){toast('Error approving')});
+}
+
+// ── Image lightbox ──────────────────────────────────────────────────
+function openInvoiceImage(id, imagePath) {
+  var ext = (imagePath || '').split('.').pop().toLowerCase();
+  if (!imagePath || ext === 'pdf') {
+    window.open('/api/invoices/' + id + '/image', '_blank');
+    return;
+  }
+  var lb = document.getElementById('imgLightbox');
+  var img = document.getElementById('imgLightboxImg');
+  img.src = '/api/invoices/' + id + '/image';
+  lb.style.display = 'flex';
+  document.addEventListener('keydown', _lbKey);
+}
+
+function closeLightbox(e) {
+  if (e && e.target.id !== 'imgLightbox') return;
+  _lbClose();
+}
+
+function _lbClose() {
+  var lb = document.getElementById('imgLightbox');
+  lb.style.display = 'none';
+  document.getElementById('imgLightboxImg').src = '';
+  document.removeEventListener('keydown', _lbKey);
+}
+
+function _lbKey(e) {
+  if (e.key === 'Escape') _lbClose();
+}
+
+</script>
+
+<!-- Image lightbox (JPG/PNG invoices) -->
+<div id="imgLightbox" onclick="closeLightbox(event)"
+     style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.92);
+            align-items:center;justify-content:center;touch-action:none;">
+  <button onclick="_lbClose()"
+          style="position:fixed;top:16px;right:16px;background:rgba(255,255,255,0.12);
+                 border:none;border-radius:50%;width:44px;height:44px;color:#fff;
+                 font-size:26px;line-height:1;cursor:pointer;z-index:1;">&times;</button>
+  <img id="imgLightboxImg" src="" alt="Invoice"
+       onclick="event.stopPropagation()"
+       style="max-width:92vw;max-height:92vh;border-radius:8px;object-fit:contain;
+              touch-action:pinch-zoom;user-select:none;">
+</div>
+
+</body>
+</html>

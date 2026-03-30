@@ -1,0 +1,13 @@
+{
+  "vendor_payment_id": 134,
+  "vendor_name": "US Foods",
+  "total": 2880.95,
+  "invoices": [
+    {
+      "invoice_number": "225348",
+      "amount": 2880.95,
+      "due_date": "2026-03-23"
+    }
+  ],
+  "requested_at": "2026-03-26T13:52:24.206681"
+}
