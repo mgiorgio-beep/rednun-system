@@ -2847,14 +2847,14 @@ function renderRecipes() {
     return '<span style="font-size:11px;padding:2px 6px;border-radius:3px;background:#324;color:#c8a">Chatham</span>';
   };
 
-  const row = r => `<tr>
+  const row = r => `<tr style="cursor:pointer" onclick="openRecipePage(${r.id})">
     <td>${r.name}</td>
     <td>${locBadge(r.location)}</td>
     <td>${r.menu_price ? fmt(r.menu_price) : '--'}</td>
     <td style="font-size:12px;color:var(--text3)">${r.ingredient_count || 0}</td>
     <td>${r.total_cost ? fmt(r.total_cost) : '--'}</td>
     <td>${r.food_cost_pct ? r.food_cost_pct.toFixed(1) + '%' : '--'}</td>
-    <td><button class="btn btn-secondary" style="padding:4px 10px;font-size:11px" onclick="openRecipePage(${r.id})">Edit</button></td>
+    <td><button class="btn btn-secondary" style="padding:4px 10px;font-size:11px" onclick="event.stopPropagation();openRecipePage(${r.id})">Edit</button></td>
   </tr>`;
 
   document.getElementById('food-recipes-table').innerHTML = food.map(row).join('');
@@ -4008,13 +4008,13 @@ async function loadPreparedItems() {
       ? '<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:20px">No prepared items yet. Click "+ Add Prepared Item" to create one.</td></tr>'
       : preps.map(r => {
         let locLabel = r.location === 'dennis' ? 'Dennis' : r.location === 'chatham' ? 'Chatham' : 'Both';
-        return `<tr>
+        return `<tr style="cursor:pointer" onclick="openPrepPage(${r.id})">
           <td style="font-weight:500">${r.name}</td>
           <td>${r.category || '--'}</td>
           <td>${(r.yield_qty||1)} ${r.yield_unit||'Each'}</td>
           <td>--</td>
           <td>--</td>
-          <td><button class="btn btn-secondary" style="padding:6px 12px;font-size:12px" onclick="openPrepPage(${r.id})">View</button></td>
+          <td><button class="btn btn-secondary" style="padding:6px 12px;font-size:12px" onclick="event.stopPropagation();openPrepPage(${r.id})">View</button></td>
         </tr>`;
       }).join('');
   } catch(e) { console.error(e); }
