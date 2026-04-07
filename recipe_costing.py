@@ -94,10 +94,19 @@ def cost_ingredient(ri, conn):
         vi_price_per_unit = product.get('price_per_unit')
         if vi_price_per_unit and vi_price_per_unit > 0:
             # price_per_unit is cost per contains_unit (e.g. per oz)
-            # Direct multiply by quantity if units match
-            ppu_unit = vi_contains_unit or pack_unit
-            recipe_unit_lower = recipe_unit.strip().lower()
-            if ppu_unit == recipe_unit_lower or (ppu_unit in ('oz',) and recipe_unit_lower in ('oz', 'ounce')):
+            # Normalize units for comparison (fl oz, fl_oz, floz all the same)
+            def norm_unit(u):
+                u = (u or '').strip().lower().replace('_', ' ').replace('.', '')
+                if u in ('fl oz', 'floz', 'fluid oz', 'fluid ounce', 'fl_oz'): return 'fl oz'
+                if u in ('oz', 'ounce', 'ounces'): return 'oz'
+                if u in ('lb', 'lbs', 'pound', 'pounds'): return 'lb'
+                if u in ('ml', 'milliliter', 'millilitre'): return 'ml'
+                if u in ('l', 'liter', 'litre', 'lt'): return 'l'
+                if u in ('ea', 'each', 'cnt', 'ct', 'count'): return 'ea'
+                return u
+            ppu_unit = norm_unit(vi_contains_unit or pack_unit)
+            recipe_unit_norm = norm_unit(recipe_unit)
+            if ppu_unit == recipe_unit_norm:
                 cost = quantity * vi_price_per_unit
                 return {'cost': round(cost, 4), 'unit_price': round(vi_price_per_unit, 4), 'source': 'vendor_item'}
 
