@@ -7,9 +7,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0F0F11; --sidebar-bg: #18181B; --card-bg: #1E1E21;
-  --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.15);
-  --text: #F5F5F7; --text2: rgba(245,245,247,0.6); --text3: rgba(245,245,247,0.35);
+  --bg: #FFFFFF; --sidebar-bg: #F5F5F7; --card-bg: #F9F9FB;
+  --border: rgba(0,0,0,0.08); --border2: rgba(0,0,0,0.15);
+  --text: #0F0F11; --text2: rgba(15,15,17,0.6); --text3: rgba(15,15,17,0.35);
   --red: #FF453A; --green: #30D158; --blue: #0A84FF; --orange: #FF9F0A;
   --purple: #BF5AF2; --yellow: #FFD60A;
 }
@@ -26,12 +26,12 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 .sidebar-logo { font-size: 20px; font-weight: 700; color: var(--red); }
 .sidebar-nav { flex: 1; padding: 12px 0; }
 .nav-item { padding: 10px 20px; display: flex; align-items: center; gap: 12px; color: var(--text2); cursor: pointer; transition: all 0.2s; border-left: 3px solid transparent; }
-.nav-item:hover { background: rgba(255,255,255,0.03); color: var(--text); }
+.nav-item:hover { background: rgba(0,0,0,0.03); color: var(--text); }
 .nav-item.active { background: rgba(255,69,58,0.1); color: var(--red); border-left-color: var(--red); }
 .nav-icon { width: 20px; height: 20px; opacity: 0.8; }
 
 /* Page Tabs */
-.page-tabs { background: rgba(28,28,30,0.85); backdrop-filter: blur(30px); border-bottom: 1px solid var(--border); display: flex; gap: 4px; padding: 12px 24px; position: sticky; top: 0; z-index: 99; }
+.page-tabs { background: rgba(245,245,247,0.92); backdrop-filter: blur(30px); border-bottom: 1px solid var(--border); display: flex; gap: 4px; padding: 12px 24px; position: sticky; top: 0; z-index: 99; }
 .page-tab { padding: 8px 16px; border-radius: 8px; background: transparent; border: 1px solid transparent; color: var(--text2); font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.2s; text-decoration: none; display: inline-block; }
 .page-tab:hover { background: var(--card-bg); border-color: var(--border); }
 .page-tab.active { background: rgba(255,69,58,0.1); border-color: rgba(255,69,58,0.3); color: var(--red); }
@@ -44,7 +44,8 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 .btn-primary { background: var(--red); color: #fff; }
 .btn-primary:hover { background: #ff5a50; }
 .btn-secondary { background: var(--card-bg); color: var(--text); border: 1px solid var(--border); }
-.btn-secondary:hover { background: rgba(255,255,255,0.05); }
+.btn-secondary:hover { background: rgba(0,0,0,0.05); }
+.recipe-loc-btn.active { background: #e8f0fe; color: #1a73e8; border-color: #1a73e8; font-weight: 600; }
 
 /* Content Area */
 .content-area { padding: 24px; max-width: 1600px; margin: 0 auto; }
@@ -60,7 +61,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 .data-table { width: 100%; border-collapse: collapse; }
 .data-table th { text-align: left; padding: 12px; font-size: 12px; font-weight: 600; color: var(--text3); text-transform: uppercase; border-bottom: 1px solid var(--border); }
 .data-table td { padding: 12px; border-bottom: 1px solid var(--border); font-size: 14px; }
-.data-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+.data-table tbody tr:hover { background: rgba(0,0,0,0.02); }
 
 /* Forms */
 .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
@@ -96,7 +97,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 .tag-beer { background: rgba(255,159,10,0.15); color: var(--orange); }
 .tag-liquor { background: rgba(255,69,58,0.15); color: var(--red); }
 .tag-wine { background: rgba(191,90,242,0.15); color: var(--purple); }
-.tag-supplies { background: rgba(255,255,255,0.1); color: var(--text3); }
+.tag-supplies { background: rgba(0,0,0,0.1); color: var(--text3); }
 
 /* Mobile Responsive Layout */
 @media(max-width:768px){
@@ -144,7 +145,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 
 /* Storage Layout */
 .sl-loc-item{padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all 0.15s}
-.sl-loc-item:hover{background:rgba(255,255,255,0.03)}
+.sl-loc-item:hover{background:rgba(0,0,0,0.03)}
 .sl-loc-item.active{background:rgba(10,132,255,0.1);border-left:3px solid var(--blue)}
 .sl-loc-item.unassigned{background:rgba(255,69,58,0.06)}
 .sl-loc-item.unassigned.active{background:rgba(255,69,58,0.12);border-left-color:var(--red)}
@@ -181,11 +182,11 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 .cs-stat-val{font-size:18px;font-weight:700;margin-top:2px}
 
 /* Inventory sub-tabs */
-.inv-tab{background:rgba(255,255,255,0.06)!important;color:var(--text)!important;border:1px solid rgba(255,255,255,0.15)!important;padding:10px 20px!important;font-size:14px!important;font-weight:600!important;display:inline-block!important;cursor:pointer!important;border-radius:8px!important}
+.inv-tab{background:rgba(0,0,0,0.06)!important;color:var(--text)!important;border:1px solid rgba(0,0,0,0.15)!important;padding:10px 20px!important;font-size:14px!important;font-weight:600!important;display:inline-block!important;cursor:pointer!important;border-radius:8px!important}
 .inv-tab.active{background:rgba(255,69,58,0.15)!important;border-color:rgba(255,69,58,0.4)!important;color:#FF453A!important}
 .inv-panel{display:none}
 .inv-panel.active{display:block}
-.fc-type-btn{background:rgba(255,255,255,0.05);color:var(--text2);border:1px solid var(--border)}
+.fc-type-btn{background:rgba(0,0,0,0.05);color:var(--text2);border:1px solid var(--border)}
 .fc-type-btn.active{background:rgba(255,69,58,0.15);border-color:rgba(255,69,58,0.4);color:#FF453A}
 
 /* Product setup tracking */
@@ -204,19 +205,19 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 .cs-branch{margin:0 0 2px 0}
 .cs-branch.collapsed .cs-branch-body{display:none}
 .cs-branch.collapsed .cs-chevron{transform:rotate(-90deg)}
-.cs-branch-header{display:flex;align-items:center;gap:8px;padding:10px 16px;cursor:pointer;transition:background 0.15s;border-bottom:1px solid rgba(255,255,255,0.04)}
-.cs-branch-header:hover{background:rgba(255,255,255,0.03)}
+.cs-branch-header{display:flex;align-items:center;gap:8px;padding:10px 16px;cursor:pointer;transition:background 0.15s;border-bottom:1px solid rgba(0,0,0,0.04)}
+.cs-branch-header:hover{background:rgba(0,0,0,0.03)}
 .cs-chevron{font-size:10px;color:var(--text3);transition:transform 0.2s;width:12px}
 .cs-branch-icon{font-size:14px}
 .cs-branch-name{font-size:13px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.3px}
 .cs-general .cs-branch-name{color:var(--text3)}
-.cs-branch-count{font-size:11px;color:var(--text3);background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:8px}
+.cs-branch-count{font-size:11px;color:var(--text3);background:rgba(0,0,0,0.06);padding:1px 6px;border-radius:8px}
 .cs-branch-del{background:none;border:none;color:var(--text3);font-size:12px;cursor:pointer;margin-left:auto;opacity:0.3;transition:opacity 0.15s}
 .cs-branch-del:hover{opacity:1;color:var(--red)}
 .cs-branch-body{padding-left:20px}
-.cs-empty-drop{padding:12px 16px;color:var(--text3);font-size:12px;font-style:italic;text-align:center;border:1px dashed rgba(255,255,255,0.1);border-radius:6px;margin:4px 8px}
-.cs-row{display:flex;align-items:center;padding:7px 12px;border-bottom:1px solid rgba(255,255,255,0.03);gap:10px;cursor:grab;transition:background 0.15s;border-radius:4px;margin:1px 0;user-select:none}
-.cs-row:hover{background:rgba(255,255,255,0.04)}
+.cs-empty-drop{padding:12px 16px;color:var(--text3);font-size:12px;font-style:italic;text-align:center;border:1px dashed rgba(0,0,0,0.1);border-radius:6px;margin:4px 8px}
+.cs-row{display:flex;align-items:center;padding:7px 12px;border-bottom:1px solid rgba(0,0,0,0.03);gap:10px;cursor:grab;transition:background 0.15s;border-radius:4px;margin:1px 0;user-select:none}
+.cs-row:hover{background:rgba(0,0,0,0.04)}
 .cs-row-num{color:var(--text3);font-size:10px;width:20px;text-align:right;font-weight:600}
 .cs-row-grip{color:var(--text3);font-size:12px;opacity:0.3}
 .cs-row:hover .cs-row-grip{opacity:0.8}
@@ -233,9 +234,9 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 #recipe-subnav .nav-item.active { border-left-color: var(--green, #22c55e); color: var(--green, #22c55e); }
 
 /* Recipe editor autocomplete */
-.rp-ac-list{position:absolute;top:100%;left:0;right:0;background:#1a1a2e;border:1px solid var(--border2);border-radius:8px;max-height:280px;overflow-y:auto;z-index:200;display:none;box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+.rp-ac-list{position:absolute;top:100%;left:0;right:0;background:#FFFFFF;border:1px solid var(--border2);border-radius:8px;max-height:280px;overflow-y:auto;z-index:200;display:none;box-shadow:0 8px 24px rgba(0,0,0,0.4)}
 .rp-ac-list.open{display:block}
-.rp-ac-item{padding:10px 12px;font-size:13px;color:var(--text);cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;justify-content:space-between;align-items:center}
+.rp-ac-item{padding:10px 12px;font-size:13px;color:var(--text);cursor:pointer;border-bottom:1px solid rgba(0,0,0,0.04);display:flex;justify-content:space-between;align-items:center}
 .rp-ac-item:last-child{border-bottom:none}
 .rp-ac-item:hover{background:rgba(10,132,255,0.12)}
 .rp-ac-item .rp-ac-cost{font-size:11px;color:var(--text3);font-weight:600}
@@ -417,13 +418,13 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
             <div style="background:linear-gradient(135deg,#1a2744,#1e3352);border-radius:10px;padding:16px 20px;border:1px solid rgba(10,132,255,0.25)">
               <div style="font-size:13px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;text-align:center;margin-bottom:12px">Period to Date</div>
               <table style="width:100%;font-size:13px;border-collapse:collapse">
-                <thead><tr style="border-bottom:1px solid rgba(255,255,255,0.1)">
+                <thead><tr style="border-bottom:1px solid rgba(0,0,0,0.1)">
                   <th style="text-align:left;padding:6px 0;font-size:12px;color:var(--text3);font-weight:600"></th>
                   <th style="text-align:right;padding:6px 0;font-size:12px;color:var(--text3);font-weight:600">Actual</th>
                   <th style="text-align:right;padding:6px 0;font-size:12px;color:var(--text3);font-weight:600">Change</th>
                 </tr></thead>
                 <tbody>
-                  <tr style="border-bottom:1px solid rgba(255,255,255,0.06)">
+                  <tr style="border-bottom:1px solid rgba(0,0,0,0.06)">
                     <td style="padding:10px 0;font-weight:700;font-size:13px">This Year</td>
                     <td style="text-align:right;padding:10px 0;font-weight:700;font-size:18px" id="dash-ptd-ty">--</td>
                     <td style="text-align:right;padding:10px 0"></td>
@@ -439,13 +440,13 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
             <div style="background:linear-gradient(135deg,#2a1a3e,#351e4d);border-radius:10px;padding:16px 20px;border:1px solid rgba(191,90,242,0.25)">
               <div style="font-size:13px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:1px;text-align:center;margin-bottom:12px">Year to Date</div>
               <table style="width:100%;font-size:13px;border-collapse:collapse">
-                <thead><tr style="border-bottom:1px solid rgba(255,255,255,0.1)">
+                <thead><tr style="border-bottom:1px solid rgba(0,0,0,0.1)">
                   <th style="text-align:left;padding:6px 0;font-size:12px;color:var(--text3);font-weight:600"></th>
                   <th style="text-align:right;padding:6px 0;font-size:12px;color:var(--text3);font-weight:600">Actual</th>
                   <th style="text-align:right;padding:6px 0;font-size:12px;color:var(--text3);font-weight:600">Change</th>
                 </tr></thead>
                 <tbody>
-                  <tr style="border-bottom:1px solid rgba(255,255,255,0.06)">
+                  <tr style="border-bottom:1px solid rgba(0,0,0,0.06)">
                     <td style="padding:10px 0;font-weight:700;font-size:13px">This Year</td>
                     <td style="text-align:right;padding:10px 0;font-weight:700;font-size:18px" id="dash-ytd-ty">--</td>
                     <td style="text-align:right;padding:10px 0"></td>
@@ -627,15 +628,15 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 
           <!-- Calculation lines -->
           <div style="font-family:monospace;font-size:14px">
-            <div onclick="fcDrillDown('begin')" style="display:flex;justify-content:space-between;padding:10px 12px;border-radius:8px;cursor:pointer;transition:background 0.15s" onmouseover="this.style.background='rgba(255,255,255,0.04)'" onmouseout="this.style.background='transparent'">
+            <div onclick="fcDrillDown('begin')" style="display:flex;justify-content:space-between;padding:10px 12px;border-radius:8px;cursor:pointer;transition:background 0.15s" onmouseover="this.style.background='rgba(0,0,0,0.04)'" onmouseout="this.style.background='transparent'">
               <span style="color:var(--text2)">Beginning Inventory</span>
               <span id="fc-begin-val" style="color:var(--text1);font-weight:600"></span>
             </div>
-            <div onclick="fcDrillDown('purchases')" style="display:flex;justify-content:space-between;padding:10px 12px;border-radius:8px;cursor:pointer;transition:background 0.15s" onmouseover="this.style.background='rgba(255,255,255,0.04)'" onmouseout="this.style.background='transparent'">
+            <div onclick="fcDrillDown('purchases')" style="display:flex;justify-content:space-between;padding:10px 12px;border-radius:8px;cursor:pointer;transition:background 0.15s" onmouseover="this.style.background='rgba(0,0,0,0.04)'" onmouseout="this.style.background='transparent'">
               <span style="color:var(--text2)">+ Purchases <span id="fc-invoice-count" style="color:var(--text3);font-size:12px"></span></span>
               <span id="fc-purchases-val" style="color:var(--text1);font-weight:600"></span>
             </div>
-            <div onclick="fcDrillDown('end')" style="display:flex;justify-content:space-between;padding:10px 12px;border-radius:8px;cursor:pointer;transition:background 0.15s" onmouseover="this.style.background='rgba(255,255,255,0.04)'" onmouseout="this.style.background='transparent'">
+            <div onclick="fcDrillDown('end')" style="display:flex;justify-content:space-between;padding:10px 12px;border-radius:8px;cursor:pointer;transition:background 0.15s" onmouseover="this.style.background='rgba(0,0,0,0.04)'" onmouseout="this.style.background='transparent'">
               <span style="color:var(--text2)">− Ending Inventory</span>
               <span id="fc-end-val" style="color:var(--text1);font-weight:600"></span>
             </div>
@@ -644,7 +645,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
               <span style="color:var(--text2)">= Cost of Goods</span>
               <span id="fc-cogs-val" style="color:var(--text1);font-weight:700"></span>
             </div>
-            <div onclick="fcDrillDown('sales')" style="display:flex;justify-content:space-between;padding:10px 12px;border-radius:8px;cursor:pointer;transition:background 0.15s" onmouseover="this.style.background='rgba(255,255,255,0.04)'" onmouseout="this.style.background='transparent'">
+            <div onclick="fcDrillDown('sales')" style="display:flex;justify-content:space-between;padding:10px 12px;border-radius:8px;cursor:pointer;transition:background 0.15s" onmouseover="this.style.background='rgba(0,0,0,0.04)'" onmouseout="this.style.background='transparent'">
               <span style="color:var(--text2)">÷ Net Sales <span id="fc-days-label" style="color:var(--text3);font-size:12px"></span></span>
               <span id="fc-sales-val" style="color:var(--text1);font-weight:600"></span>
             </div>
@@ -1713,11 +1714,11 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
             <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
               <div class="card-title">Menu Item &rarr; Recipe Mapping</div>
               <div style="display:flex;gap:8px;align-items:center">
-                <input type="text" id="pmix-search" placeholder="Search menu items..." style="padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px;width:220px">
-                <select id="pmix-filter" style="padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
-                  <option value="all" style="background:#1a1a2e;color:#e2e8f0">All Items</option>
-                  <option value="mapped" style="background:#1a1a2e;color:#e2e8f0">Mapped</option>
-                  <option value="unmapped" style="background:#1a1a2e;color:#e2e8f0">Unmapped</option>
+                <input type="text" id="pmix-search" placeholder="Search menu items..." style="padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px;width:220px">
+                <select id="pmix-filter" style="padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
+                  <option value="all" style="background:#FFFFFF;color:#e2e8f0">All Items</option>
+                  <option value="mapped" style="background:#FFFFFF;color:#e2e8f0">Mapped</option>
+                  <option value="unmapped" style="background:#FFFFFF;color:#e2e8f0">Unmapped</option>
                 </select>
                 <button onclick="pmixAutoSuggest()" style="padding:6px 14px;border-radius:8px;border:none;background:rgba(99,102,241,0.15);color:#818cf8;font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap">Auto-Suggest</button>
               </div>
@@ -1749,8 +1750,8 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
                 <button onclick="pmixReportPreset('thisweek')" class="pmix-preset" style="padding:5px 10px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text3);font-size:11px;cursor:pointer">This Week</button>
                 <button onclick="pmixReportPreset('lastweek')" class="pmix-preset" style="padding:5px 10px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text3);font-size:11px;cursor:pointer">Last Week</button>
                 <button onclick="pmixReportPreset('thismonth')" class="pmix-preset" style="padding:5px 10px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text3);font-size:11px;cursor:pointer">This Month</button>
-                <input type="date" id="pmix-report-start" style="padding:5px 8px;border-radius:6px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:12px;color-scheme:dark">
-                <input type="date" id="pmix-report-end" style="padding:5px 8px;border-radius:6px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:12px;color-scheme:dark">
+                <input type="date" id="pmix-report-start" style="padding:5px 8px;border-radius:6px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:12px;color-scheme:dark">
+                <input type="date" id="pmix-report-end" style="padding:5px 8px;border-radius:6px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:12px;color-scheme:dark">
                 <button onclick="pmixGenerateReport()" style="padding:6px 14px;border-radius:8px;border:none;background:var(--green);color:#fff;font-weight:600;font-size:12px;cursor:pointer">Generate Report</button>
               </div>
             </div>
@@ -1807,7 +1808,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
                 <button class="bp-filter-btn" data-status="overdue" onclick="bpSetFilter(this)">Overdue</button>
                 <button class="bp-filter-btn" data-status="paid" onclick="bpSetFilter(this)">Paid</button>
               </div>
-              <select id="bp-vendor-filter" onchange="bpLoadInvoices()" style="padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <select id="bp-vendor-filter" onchange="bpLoadInvoices()" style="padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
                 <option value="">All Vendors</option>
               </select>
               <div style="margin-left:auto;display:flex;gap:8px">
@@ -1852,10 +1853,10 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
         <div class="content-area" style="max-width:1400px">
           <div class="card" style="margin-bottom:16px;padding:12px 16px">
             <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-              <input type="date" id="bp-pay-from" onchange="bpLoadPayments()" style="padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <input type="date" id="bp-pay-from" onchange="bpLoadPayments()" style="padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               <span style="color:var(--text3)">to</span>
-              <input type="date" id="bp-pay-to" onchange="bpLoadPayments()" style="padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
-              <select id="bp-pay-status" onchange="bpLoadPayments()" style="padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <input type="date" id="bp-pay-to" onchange="bpLoadPayments()" style="padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
+              <select id="bp-pay-status" onchange="bpLoadPayments()" style="padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
                 <option value="">All Statuses</option>
                 <option value="pending">Pending</option>
                 <option value="printed">Printed</option>
@@ -1891,7 +1892,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
       <div class="view" id="view-bp-vendors">
         <div class="content-area" style="max-width:1000px">
           <div class="card" style="margin-bottom:16px;padding:12px 16px">
-            <input type="text" id="bp-vendor-search" placeholder="Search vendors..." oninput="bpFilterVendorList()" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px;width:100%;max-width:300px">
+            <input type="text" id="bp-vendor-search" placeholder="Search vendors..." oninput="bpFilterVendorList()" style="padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px;width:100%;max-width:300px">
           </div>
           <div class="card">
             <table style="width:100%;border-collapse:collapse;font-size:13px">
@@ -1923,28 +1924,28 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Bank Name</label>
-                <input type="text" id="ck-bank-name" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="text" id="ck-bank-name" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Bank Address</label>
-                <input type="text" id="ck-bank-address" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="text" id="ck-bank-address" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
             </div>
             <h3 style="color:#e2e8f0;margin:0 0 16px 0;font-size:15px">Account Information</h3>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Account Name</label>
-                <input type="text" id="ck-account-name" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="text" id="ck-account-name" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Address Line 1</label>
-                <input type="text" id="ck-addr1" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="text" id="ck-addr1" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">City / State / Zip</label>
-                <input type="text" id="ck-csz" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="text" id="ck-csz" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
               <div></div>
             </div>
@@ -1952,31 +1953,31 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Routing Number</label>
-                <input type="text" id="ck-routing" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="text" id="ck-routing" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Account Number</label>
-                <input type="text" id="ck-account" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="text" id="ck-account" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Next Check #</label>
-                <input type="number" id="ck-next-num" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="number" id="ck-next-num" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Offset X (pt)</label>
-                <input type="number" id="ck-offset-x" step="0.5" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="number" id="ck-offset-x" step="0.5" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Offset Y (pt)</label>
-                <input type="number" id="ck-offset-y" step="0.5" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="number" id="ck-offset-y" step="0.5" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Signature</label>
-                <input type="text" id="ck-sig-path" placeholder="/opt/rednun/check_assets/signature.png" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px;display:none">
+                <input type="text" id="ck-sig-path" placeholder="/opt/rednun/check_assets/signature.png" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px;display:none">
                 <div style="display:flex;align-items:center;gap:10px">
-                  <label style="padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:12px;cursor:pointer;display:inline-block">
+                  <label style="padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:12px;cursor:pointer;display:inline-block">
                     Upload Signature
                     <input type="file" id="ck-sig-upload" accept="image/*" onchange="bpUploadSignature(this)" style="display:none">
                   </label>
@@ -2043,35 +2044,35 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
             <div style="grid-column:1/-1">
               <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:3px">Employee Name</label>
-              <input type="text" id="pr-employee-name" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <input type="text" id="pr-employee-name" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
             </div>
             <div>
               <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:3px">Check Number</label>
-              <input type="text" id="pr-check-number" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <input type="text" id="pr-check-number" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
             </div>
             <div>
               <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:3px">Pay Date</label>
-              <input type="date" id="pr-pay-date" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <input type="date" id="pr-pay-date" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
             </div>
             <div>
               <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:3px">Gross Pay</label>
-              <input type="number" id="pr-gross" step="0.01" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <input type="number" id="pr-gross" step="0.01" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
             </div>
             <div>
               <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:3px">Net Pay</label>
-              <input type="number" id="pr-net" step="0.01" oninput="prCalcNet()" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <input type="number" id="pr-net" step="0.01" oninput="prCalcNet()" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
             </div>
             <div>
               <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:3px">Period Start</label>
-              <input type="date" id="pr-period-start" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <input type="date" id="pr-period-start" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
             </div>
             <div>
               <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:3px">Period End</label>
-              <input type="date" id="pr-period-end" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <input type="date" id="pr-period-end" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
             </div>
             <div>
               <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:3px">Location</label>
-              <select id="pr-location" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <select id="pr-location" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
                 <option value="chatham">Chatham</option>
                 <option value="dennisport">Dennis Port</option>
               </select>
@@ -2080,13 +2081,13 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 
           <div style="margin-bottom:12px">
             <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:3px">Memo (optional)</label>
-            <input type="text" id="pr-memo" placeholder="e.g. Weekly payroll" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+            <input type="text" id="pr-memo" placeholder="e.g. Weekly payroll" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
           </div>
 
           <div style="margin-bottom:16px">
             <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:3px">Payroll Check PDF</label>
             <div style="display:flex;align-items:center;gap:10px">
-              <label style="padding:8px 16px;border-radius:8px;border:1px dashed var(--border);background:#1a1a2e;color:#e2e8f0;font-size:12px;cursor:pointer;display:inline-block">
+              <label style="padding:8px 16px;border-radius:8px;border:1px dashed var(--border);background:#FFFFFF;color:#e2e8f0;font-size:12px;cursor:pointer;display:inline-block">
                 📄 Upload PDF
                 <input type="file" id="pr-pdf-file" accept=".pdf" style="display:none" onchange="prFileSelected(this)">
               </label>
@@ -2117,28 +2118,28 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
             <div style="grid-column:1/-1">
               <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:3px">Pay To</label>
-              <input type="text" id="mc-payee" placeholder="Name" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <input type="text" id="mc-payee" placeholder="Name" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
             </div>
             <div>
               <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:3px">Address Line 1</label>
-              <input type="text" id="mc-addr1" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <input type="text" id="mc-addr1" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
             </div>
             <div>
               <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:3px">Address Line 2</label>
-              <input type="text" id="mc-addr2" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <input type="text" id="mc-addr2" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
             </div>
             <div>
               <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:3px">City</label>
-              <input type="text" id="mc-city" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <input type="text" id="mc-city" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:3px">State</label>
-                <input type="text" id="mc-state" value="MA" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="text" id="mc-state" value="MA" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:3px">Zip</label>
-                <input type="text" id="mc-zip" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="text" id="mc-zip" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
             </div>
           </div>
@@ -2146,11 +2147,11 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
             <div>
               <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:3px">Amount</label>
-              <input type="number" id="mc-amount" step="0.01" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <input type="number" id="mc-amount" step="0.01" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
             </div>
             <div>
               <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:3px">Location</label>
-              <select id="mc-location" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <select id="mc-location" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
                 <option value="chatham">Chatham</option>
                 <option value="dennisport">Dennis Port</option>
               </select>
@@ -2160,7 +2161,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
             <div>
               <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:3px">Check Type</label>
-              <select id="mc-type" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <select id="mc-type" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
                 <option value="manual">Manual</option>
                 <option value="dividend">Dividend</option>
                 <option value="reimbursement">Reimbursement</option>
@@ -2170,7 +2171,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
             </div>
             <div>
               <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:3px">Memo</label>
-              <input type="text" id="mc-memo" placeholder="e.g. Q1 2026 Dividend" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <input type="text" id="mc-memo" placeholder="e.g. Q1 2026 Dividend" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
             </div>
           </div>
 
@@ -2189,12 +2190,12 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
           <div style="display:grid;gap:12px">
             <div>
               <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Vendor</label>
-              <input type="text" id="bp-pay-vendor" readonly style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <input type="text" id="bp-pay-vendor" readonly style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Payment Method</label>
-                <select id="bp-pay-method" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <select id="bp-pay-method" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
                   <option value="check">Check</option>
                   <option value="ach">ACH</option>
                   <option value="credit_card">Credit Card</option>
@@ -2204,22 +2205,22 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
               </div>
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Payment Date</label>
-                <input type="date" id="bp-pay-date" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="date" id="bp-pay-date" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Amount</label>
-                <input type="number" id="bp-pay-amount" step="0.01" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="number" id="bp-pay-amount" step="0.01" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Check # / Reference</label>
-                <input type="text" id="bp-pay-ref" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="text" id="bp-pay-ref" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
             </div>
             <div>
               <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Memo</label>
-              <input type="text" id="bp-pay-memo" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <input type="text" id="bp-pay-memo" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
             </div>
             <div id="bp-pay-invoices-list" style="max-height:200px;overflow-y:auto;font-size:12px;color:var(--text3)"></div>
           </div>
@@ -2263,51 +2264,51 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
             </div>
             <div>
               <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Payment Recipient (if different from vendor name)</label>
-              <input type="text" id="bp-ve-recipient" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+              <input type="text" id="bp-ve-recipient" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
             </div>
             <h4 style="color:var(--text3);margin:8px 0 0 0;font-size:12px">Remittance Address</h4>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Address Line 1</label>
-                <input type="text" id="bp-ve-addr1" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="text" id="bp-ve-addr1" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Address Line 2</label>
-                <input type="text" id="bp-ve-addr2" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="text" id="bp-ve-addr2" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
             </div>
             <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px">
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">City</label>
-                <input type="text" id="bp-ve-city" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="text" id="bp-ve-city" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">State</label>
-                <input type="text" id="bp-ve-state" maxlength="2" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="text" id="bp-ve-state" maxlength="2" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Zip</label>
-                <input type="text" id="bp-ve-zip" maxlength="10" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="text" id="bp-ve-zip" maxlength="10" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Account Number</label>
-                <input type="text" id="bp-ve-acct" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="text" id="bp-ve-acct" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Contact Email</label>
-                <input type="text" id="bp-ve-email" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="text" id="bp-ve-email" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Phone</label>
-                <input type="text" id="bp-ve-phone" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="text" id="bp-ve-phone" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Payment Method</label>
-                <select id="bp-ve-method" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <select id="bp-ve-method" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
                   <option value="check">Check</option>
                   <option value="ach">ACH</option>
                   <option value="credit_card">Credit Card</option>
@@ -2319,7 +2320,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
               <div>
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Payment Terms</label>
-                <select id="bp-ve-terms" onchange="bpTermsChanged()" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <select id="bp-ve-terms" onchange="bpTermsChanged()" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
                   <option value="not_specified">Due on Receipt</option>
                   <option value="net_days">Net Days</option>
                   <option value="day_of_month">Day of Month</option>
@@ -2327,16 +2328,16 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
               </div>
               <div id="bp-ve-netdays-wrap" style="display:none">
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Net Days</label>
-                <input type="number" id="bp-ve-netdays" value="30" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="number" id="bp-ve-netdays" value="30" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
               <div id="bp-ve-dom-wrap" style="display:none">
                 <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Day of Month</label>
-                <input type="number" id="bp-ve-dom" min="1" max="31" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px">
+                <input type="number" id="bp-ve-dom" min="1" max="31" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px">
               </div>
             </div>
             <div>
               <label style="font-size:11px;color:var(--text3);display:block;margin-bottom:4px">Notes</label>
-              <textarea id="bp-ve-notes" rows="2" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:13px;resize:vertical"></textarea>
+              <textarea id="bp-ve-notes" rows="2" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:13px;resize:vertical"></textarea>
             </div>
           </div>
           </div><!-- /form column -->
@@ -2842,9 +2843,9 @@ function renderRecipes() {
   const bar = filtered.filter(r => r.category !== 'FOOD');
 
   const locBadge = loc => {
-    if (loc === 'both') return '<span style="font-size:11px;padding:2px 6px;border-radius:3px;background:#334;color:#8af">Both</span>';
-    if (loc === 'dennis') return '<span style="font-size:11px;padding:2px 6px;border-radius:3px;background:#342;color:#ac8">Dennis</span>';
-    return '<span style="font-size:11px;padding:2px 6px;border-radius:3px;background:#324;color:#c8a">Chatham</span>';
+    if (loc === 'both') return '<span style="font-size:11px;padding:2px 8px;border-radius:4px;background:#e8f0fe;color:#1a73e8;font-weight:600">Both</span>';
+    if (loc === 'dennis') return '<span style="font-size:11px;padding:2px 8px;border-radius:4px;background:#e6f4ea;color:#188038;font-weight:600">Dennis</span>';
+    return '<span style="font-size:11px;padding:2px 8px;border-radius:4px;background:#fce8e6;color:#c5221f;font-weight:600">Chatham</span>';
   };
 
   const row = r => `<tr style="cursor:pointer" onclick="openRecipePage(${r.id})">
@@ -5305,7 +5306,7 @@ async function csRefresh() {
       var isActive = area.id === csActiveArea;
       h += '<div class="cs-nav-item" data-areaid="' + area.id + '" onclick="csSelectArea(' + area.id + ')" style="padding:10px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;border-left:3px solid ' + (isActive ? 'var(--red)' : 'transparent') + ';background:' + (isActive ? 'rgba(255,69,58,0.08)' : 'transparent') + ';transition:all 0.15s">';
       h += '<span style="font-size:13px;font-weight:' + (isActive ? '700' : '500') + '">' + area.name + '</span>';
-      h += '<span style="font-size:11px;color:var(--text3);background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:8px">' + area.products.length + '</span>';
+      h += '<span style="font-size:11px;color:var(--text3);background:rgba(0,0,0,0.06);padding:1px 6px;border-radius:8px">' + area.products.length + '</span>';
       h += '</div>';
     });
     nav.innerHTML = h;
@@ -5354,7 +5355,7 @@ function csRenderAreaContent() {
   
   var h = '';
   // Area header with section filter tabs
-  h += '<div style="padding:12px 16px;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.02);position:sticky;top:0;z-index:1">';
+  h += '<div style="padding:12px 16px;border-bottom:1px solid var(--border);background:rgba(0,0,0,0.02);position:sticky;top:0;z-index:1">';
   h += '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">';
   h += '<span style="font-size:15px;font-weight:700">' + area.name + '</span>';
   h += '<span style="font-size:12px;color:var(--text3)">' + area.products.length + ' items</span>';
@@ -5399,7 +5400,7 @@ function csRenderAreaContent() {
   // Unsectioned
   if (showAll || showSections.indexOf(0) >= 0) {
     if (area.sections.length > 0 && unsectioned.length > 0) {
-      h += '<div style="padding:6px 16px;font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid rgba(255,255,255,0.04)">General</div>';
+      h += '<div style="padding:6px 16px;font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid rgba(0,0,0,0.04)">General</div>';
     }
     h += '<div class="cs-sortable" data-areaid="' + area.id + '" data-sectionid="null">';
     unsectioned.forEach(function(p, i) { h += csProductRow(p, i + 1); });
@@ -5636,7 +5637,7 @@ function bpRenderSorted() {
     var days = inv.invoice_date ? Math.floor((Date.now() - new Date(inv.invoice_date + 'T00:00:00').getTime()) / 86400000) : 0;
     var statusColor = days > 45 ? '#ef4444' : days > 30 ? '#f59e0b' : 'var(--text3)';
     var statusLabel = days + 'd';
-    return '<tr style="border-bottom:1px solid var(--border);cursor:pointer" onmouseover="this.style.background=\'rgba(255,255,255,0.03)\'" onmouseout="this.style.background=\'\'">' +
+    return '<tr style="border-bottom:1px solid var(--border);cursor:pointer" onmouseover="this.style.background=\'rgba(0,0,0,0.03)\'" onmouseout="this.style.background=\'\'">' +
       '<td style="padding:8px"><input type="checkbox" data-id="' + inv.id + '" onchange="bpToggleSelect(this,' + inv.id + ')"' + (_bpSelected.has(inv.id) ? ' checked' : '') + '></td>' +
       '<td style="padding:8px;color:#e2e8f0;font-weight:500">' + (inv.vendor_name||'—') + '</td>' +
       '<td style="padding:8px;color:var(--text3)">' + (inv.invoice_number||'—') + '</td>' +
@@ -5743,7 +5744,7 @@ function bpRecordPayment() {
   var listEl = document.getElementById('bp-pay-invoices-list');
   listEl.innerHTML = '<div style="margin-top:8px;font-weight:600;color:#e2e8f0;margin-bottom:6px">Invoices:</div>' +
     invs.map(function(i){
-      return '<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.05)">' +
+      return '<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(0,0,0,0.05)">' +
         '<span>' + i.vendor_name + ' #' + (i.invoice_number||'—') + ' (' + (i.invoice_date||'') + ')</span>' +
         '<span style="font-weight:600">$' + (i.balance||0).toFixed(2) + '</span></div>';
     }).join('');
@@ -5907,7 +5908,7 @@ function bpRenderVendorList() {
   var filtered = _bpVendors.filter(function(v){ return !search || v.vendor_name.toLowerCase().includes(search); });
   tb.innerHTML = filtered.map(function(v){
     var addr = [v.remit_address_1, v.remit_city, v.remit_state].filter(Boolean).join(', ');
-    return '<tr style="border-bottom:1px solid var(--border);cursor:pointer" onclick="bpEditVendor(\'' + v.vendor_name.replace(/'/g, "\\'") + '\')" onmouseover="this.style.background=\'rgba(255,255,255,0.03)\'" onmouseout="this.style.background=\'\'">' +
+    return '<tr style="border-bottom:1px solid var(--border);cursor:pointer" onclick="bpEditVendor(\'' + v.vendor_name.replace(/'/g, "\\'") + '\')" onmouseover="this.style.background=\'rgba(0,0,0,0.03)\'" onmouseout="this.style.background=\'\'">' +
       '<td style="padding:10px 12px;color:#e2e8f0;font-weight:500">' + v.vendor_name + '</td>' +
       '<td style="padding:10px 8px;color:var(--text3);font-size:12px">' + (addr || '—') + '</td>' +
       '<td style="padding:10px 8px;text-align:right;color:' + (v.outstanding_total > 0 ? '#e2e8f0' : 'var(--text3)') + '">$' + (v.outstanding_total||0).toFixed(2) + '</td>' +
@@ -6435,7 +6436,7 @@ async function loadDashboard() {
     rows += '</tr>';
   }
 
-  rows += '<tr style="font-weight:700;border-top:2px solid var(--border);background:rgba(255,255,255,0.03)">';
+  rows += '<tr style="font-weight:700;border-top:2px solid var(--border);background:rgba(0,0,0,0.03)">';
   rows += '<td style="padding:8px">Total</td>';
   rows += '<td style="text-align:right;padding:8px;border-left:2px solid var(--border)">'+fmt2(totTW)+'</td>';
   rows += '<td style="text-align:right;padding:8px;border-left:2px solid var(--border)">'+fmt2(totLW)+'</td>';
@@ -6540,9 +6541,9 @@ async function loadDashboard() {
           thtml += '<div style="text-align:right">';
           thtml += '<div style="font-size:11px;color:var(--text3)">Setpoint</div>';
           thtml += '<div style="display:flex;align-items:center;gap:6px">';
-          thtml += '<button onclick="thermoAdj(\'' + lk + '\',' + t.id + ',-1)" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:var(--text1);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">&#8722;</button>';
+          thtml += '<button onclick="thermoAdj(\'' + lk + '\',' + t.id + ',-1)" style="background:rgba(0,0,0,0.1);border:1px solid rgba(0,0,0,0.2);color:var(--text1);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">&#8722;</button>';
           thtml += '<div style="font-size:20px;font-weight:600" id="thermo-sp-' + t.id + '">' + Math.round(t.heat_setpoint) + '&deg;</div>';
-          thtml += '<button onclick="thermoAdj(\'' + lk + '\',' + t.id + ',1)" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:var(--text1);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">+</button>';
+          thtml += '<button onclick="thermoAdj(\'' + lk + '\',' + t.id + ',1)" style="background:rgba(0,0,0,0.1);border:1px solid rgba(0,0,0,0.2);color:var(--text1);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">+</button>';
           thtml += '</div>';
           thtml += '<div style="font-size:11px;color:' + statusColor + '">' + statusIcon + ' ' + t.equipment_status + '</div>';
           if (t.humidity) thtml += '<div style="font-size:11px;color:var(--text3)">&#128167; ' + t.humidity + '%</div>';
@@ -6576,9 +6577,9 @@ async function loadDashboard() {
           c += '<div style="font-size:12px;color:' + mStatusColor + ';margin-top:4px">' + statusLabel + ' &middot; Set <span id="thermo-mob-sp-' + mt.id + '">' + Math.round(mt.heat_setpoint) + '</span>&deg;</div>';
           c += '<div id="thermo-expand-' + mt.id + '" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid rgba(0,200,180,0.15)">';
           c += '<div style="display:flex;justify-content:center;align-items:center;gap:16px">';
-          c += '<button onclick="event.stopPropagation();thermoAdj(\'' + mlk + '\',' + mt.id + ',-1)" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:var(--text1);width:44px;height:44px;border-radius:10px;cursor:pointer;font-size:22px">&#8722;</button>';
+          c += '<button onclick="event.stopPropagation();thermoAdj(\'' + mlk + '\',' + mt.id + ',-1)" style="background:rgba(0,0,0,0.1);border:1px solid rgba(0,0,0,0.2);color:var(--text1);width:44px;height:44px;border-radius:10px;cursor:pointer;font-size:22px">&#8722;</button>';
           c += '<div style="font-size:32px;font-weight:700" id="thermo-mob-big-' + mt.id + '">' + Math.round(mt.heat_setpoint) + '&deg;</div>';
-          c += '<button onclick="event.stopPropagation();thermoAdj(\'' + mlk + '\',' + mt.id + ',1)" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:var(--text1);width:44px;height:44px;border-radius:10px;cursor:pointer;font-size:22px">+</button>';
+          c += '<button onclick="event.stopPropagation();thermoAdj(\'' + mlk + '\',' + mt.id + ',1)" style="background:rgba(0,0,0,0.1);border:1px solid rgba(0,0,0,0.2);color:var(--text1);width:44px;height:44px;border-radius:10px;cursor:pointer;font-size:22px">+</button>';
           c += '</div>';
           if (mt.humidity) c += '<div style="text-align:center;margin-top:8px;font-size:12px;color:var(--text3)">&#128167; ' + mt.humidity + '%</div>';
           c += '</div></div>';
@@ -6742,12 +6743,12 @@ function psRender() {
     h += warn ? '<span style="color:var(--orange);font-size:14px;flex-shrink:0">&#9888;</span>' : '<span style="color:var(--green);font-size:14px;flex-shrink:0">&#10003;</span>';
     h += `<div style="flex:1;min-width:0"><div style="font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.display_name||p.name||''}</div>`;
     h += `<div style="font-size:12px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.active_vendor_name||''} ${p.vendor_count>1?'(+' + (p.vendor_count-1) + ' more)':''}</div></div>`;
-    if (catLabel && catLabel !== '--') h += `<span style="font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px;background:rgba(255,255,255,0.05);color:${cc};flex-shrink:0">${catLabel}</span>`;
+    if (catLabel && catLabel !== '--') h += `<span style="font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px;background:rgba(0,0,0,0.05);color:${cc};flex-shrink:0">${catLabel}</span>`;
     h += `<span style="font-size:12px;color:var(--text2);min-width:70px;text-align:right">${cp}</span>`;
     h += `<span style="font-size:13px;font-weight:600;color:var(--green);min-width:100px;text-align:right">${ppu}</span>`;
     h += `<span style="color:var(--text3);font-size:12px;transition:transform 0.2s;transform:rotate(${isO?'90':'0'}deg)">&#9654;</span>`;
     h += '</div>';
-    if (isO) h += `<div style="border-top:1px solid var(--border);padding:20px;background:rgba(255,255,255,0.02)" onclick="event.stopPropagation()">${psDetail(p)}</div>`;
+    if (isO) h += `<div style="border-top:1px solid var(--border);padding:20px;background:rgba(0,0,0,0.02)" onclick="event.stopPropagation()">${psDetail(p)}</div>`;
     h += '</div>';
     return h;
   }).join('');
@@ -6814,7 +6815,7 @@ async function psLoadVendors(pid) {
       var ppu = v.price_per_unit ? '$' + Number(v.price_per_unit).toFixed(4) : '--';
       var price = v.purchase_price ? '$' + Number(v.purchase_price).toFixed(2) : '--';
       var active = v.is_active ? ' style="border-left:3px solid var(--green);padding-left:9px"' : '';
-      return `<div${active} style="padding:6px 12px;margin-bottom:4px;background:rgba(255,255,255,0.02);border-radius:6px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      return `<div${active} style="padding:6px 12px;margin-bottom:4px;background:rgba(0,0,0,0.02);border-radius:6px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
         <span style="font-weight:600;color:var(--text);min-width:120px">${v.vendor_display_name||v.vendor_name||'?'}</span>
         <span style="flex:1;min-width:200px;color:var(--text2)">${v.vendor_description||''}</span>
         ${v.vendor_item_code?`<span style="color:var(--text3)">#${v.vendor_item_code}</span>`:''}
@@ -6993,7 +6994,7 @@ async function loadOrderGuide() {
 
     vendors.innerHTML = data.vendors.map(v => `
       <div style="border-bottom:1px solid var(--border)">
-        <div style="padding:16px;background:rgba(255,255,255,0.02);cursor:pointer" onclick="ogToggleVendor('${v.vendor}')">
+        <div style="padding:16px;background:rgba(0,0,0,0.02);cursor:pointer" onclick="ogToggleVendor('${v.vendor}')">
           <div style="display:flex;align-items:center;justify-content:space-between">
             <div>
               <div style="font-size:16px;font-weight:600">${v.vendor}</div>
@@ -7077,7 +7078,7 @@ async function rvLoadRecipes() {
       const fcPct = r.food_cost_pct > 0 && r.menu_price > 0
         ? rvFcColor(r.food_cost_pct)
         : '';
-      return '<div onclick="rvShowRecipe(' + r.id + ')" style="padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background 0.15s" onmouseenter="this.style.background=\'rgba(255,255,255,0.03)\'" onmouseleave="this.style.background=\'transparent\'">' +
+      return '<div onclick="rvShowRecipe(' + r.id + ')" style="padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background 0.15s" onmouseenter="this.style.background=\'rgba(0,0,0,0.03)\'" onmouseleave="this.style.background=\'transparent\'">' +
         '<div><div style="font-weight:600;font-size:14px">' + (r.name || 'Untitled') + '</div>' +
         '<div style="font-size:11px;color:var(--text3)">' + (r.category || '') + ' &middot; ' + (r.serving_size || 1) + ' servings</div></div>' +
         '<div style="text-align:right">' + costBadge + fcPct + '</div></div>';
@@ -7232,9 +7233,9 @@ function pmixRender() {
   var page = items.slice(start, start + _pmixPerPage);
   var tbody = document.getElementById('pmix-table-body');
 
-  var recipeOpts = '<option value="" style="background:#1a1a2e;color:#e2e8f0">— Not linked —</option>';
+  var recipeOpts = '<option value="" style="background:#FFFFFF;color:#e2e8f0">— Not linked —</option>';
   _pmixRecipes.forEach(function(r) {
-    recipeOpts += '<option value="' + r.id + '" style="background:#1a1a2e;color:#e2e8f0">' + (r.name || '').replace(/"/g, '&quot;') + '</option>';
+    recipeOpts += '<option value="' + r.id + '" style="background:#FFFFFF;color:#e2e8f0">' + (r.name || '').replace(/"/g, '&quot;') + '</option>';
   });
 
   var html = '';
@@ -7249,10 +7250,10 @@ function pmixRender() {
       '<td style="padding:8px 12px;max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (it.menu_item_name || '').replace(/"/g, '&quot;') + '">' + (it.menu_item_name || '') + '</td>' +
       '<td style="padding:8px;text-align:right;font-family:monospace">' + (it.total_sold || 0).toLocaleString() + '</td>' +
       '<td style="padding:8px;text-align:right;font-family:monospace">$' + (it.total_revenue || 0).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) + '</td>' +
-      '<td style="padding:8px 12px"><select onchange="pmixMapItem(this,\'' + (it.menu_item_name || '').replace(/'/g, "\\'").replace(/"/g, '&quot;') + '\')" style="padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:12px;max-width:200px">' +
+      '<td style="padding:8px 12px"><select onchange="pmixMapItem(this,\'' + (it.menu_item_name || '').replace(/'/g, "\\'").replace(/"/g, '&quot;') + '\')" style="padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:12px;max-width:200px">' +
       recipeOpts.replace('value="' + selectedRecipeId + '"', 'value="' + selectedRecipeId + '" selected') +
       '</select></td>' +
-      '<td style="padding:8px;text-align:center"><input type="number" value="' + (it.multiplier || 1) + '" step="0.1" min="0.1" max="10" style="width:50px;padding:3px 4px;border-radius:4px;border:1px solid var(--border);background:#1a1a2e;color:#e2e8f0;font-size:12px;text-align:center" onblur="pmixUpdateMult(this,\'' + (it.menu_item_name || '').replace(/'/g, "\\'").replace(/"/g, '&quot;') + '\')"></td>' +
+      '<td style="padding:8px;text-align:center"><input type="number" value="' + (it.multiplier || 1) + '" step="0.1" min="0.1" max="10" style="width:50px;padding:3px 4px;border-radius:4px;border:1px solid var(--border);background:#FFFFFF;color:#e2e8f0;font-size:12px;text-align:center" onblur="pmixUpdateMult(this,\'' + (it.menu_item_name || '').replace(/'/g, "\\'").replace(/"/g, '&quot;') + '\')"></td>' +
       '<td style="padding:8px;text-align:right">' + fcDisplay + '</td>' +
       '<td style="padding:8px;text-align:center">' +
       (it.mapping_id ? '<button onclick="pmixUnmap(' + it.mapping_id + ')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:16px;padding:2px 6px" title="Remove mapping">&times;</button>' : '') +
@@ -7397,7 +7398,7 @@ async function pmixGenerateReport() {
         data.summary.unmapped_pct + '% of revenue ($' + data.summary.unmapped_revenue.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) + ') has no recipe linked — link these items to improve accuracy';
       var uhtml = '<table style="width:100%;border-collapse:collapse;font-size:12px">';
       data.unmapped_items.slice(0, 50).forEach(function(u) {
-        uhtml += '<tr style="border-bottom:1px solid rgba(255,255,255,0.05)"><td style="padding:4px 8px">' + u.menu_item_name + '</td><td style="padding:4px 8px;text-align:right;font-family:monospace">' + u.qty_sold.toLocaleString() + '</td><td style="padding:4px 8px;text-align:right;font-family:monospace">$' + u.revenue.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) + '</td></tr>';
+        uhtml += '<tr style="border-bottom:1px solid rgba(0,0,0,0.05)"><td style="padding:4px 8px">' + u.menu_item_name + '</td><td style="padding:4px 8px;text-align:right;font-family:monospace">' + u.qty_sold.toLocaleString() + '</td><td style="padding:4px 8px;text-align:right;font-family:monospace">$' + u.revenue.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}) + '</td></tr>';
       });
       if (data.unmapped_items.length > 50) uhtml += '<tr><td colspan="3" style="padding:6px 8px;color:var(--text3);font-style:italic">...and ' + (data.unmapped_items.length - 50) + ' more</td></tr>';
       uhtml += '</table>';
@@ -7564,7 +7565,7 @@ function maRender() {
     var fcColor = !item.mapped ? '#6b7280' : item.fcp > 35 ? '#ef4444' : item.fcp > 28 ? '#f59e0b' : '#22c55e';
     var profitColor = item.profit >= 0 ? '#22c55e' : '#ef4444';
     var clickAttr = item.mapped ? ' style="cursor:pointer" onclick="maDrilldown(\'' + item.name.replace(/'/g, "\\'") + '\')"' : '';
-    html += '<tr' + clickAttr + ' onmouseover="this.style.background=\'rgba(255,255,255,0.03)\'" onmouseout="this.style.background=\'\'">' +
+    html += '<tr' + clickAttr + ' onmouseover="this.style.background=\'rgba(0,0,0,0.03)\'" onmouseout="this.style.background=\'\'">' +
       '<td style="padding:8px 12px;font-weight:500">' + item.name +
         (!item.mapped ? ' <span style="font-size:10px;color:#f59e0b;background:rgba(245,158,11,0.1);padding:1px 6px;border-radius:3px">unmapped</span>' : '') +
         (item.mapped && !item.has_cost ? ' <span style="font-size:10px;color:#6b7280;background:rgba(107,114,128,0.1);padding:1px 6px;border-radius:3px">no cost data</span>' : '') +
@@ -7615,7 +7616,7 @@ async function maDrilldown(itemName) {
       var total = 0;
       data.ingredients.forEach(function(ing) {
         total += ing.line_cost || 0;
-        html += '<tr style="border-bottom:1px solid rgba(255,255,255,0.03)">' +
+        html += '<tr style="border-bottom:1px solid rgba(0,0,0,0.03)">' +
           '<td style="padding:8px 12px;font-weight:500">' + ing.product_name +
             (!ing.has_price ? ' <span style="color:#f59e0b;font-size:10px">no price</span>' : '') + '</td>' +
           '<td style="padding:8px;text-align:right;font-family:monospace">' + (ing.quantity||0) + '</td>' +
@@ -7668,7 +7669,7 @@ async function maRecalcCosts() {
      background:rgba(0,0,0,0.72);z-index:9999;align-items:center;justify-content:center;">
   <div style="background:var(--bg2,#1a1a1a);border:1px solid var(--border,#3a3a3a);
               border-radius:10px;padding:28px 24px;max-width:420px;width:92%;">
-    <div style="font-size:17px;font-weight:700;color:var(--text1,#fff);margin-bottom:6px">
+    <div style="font-size:17px;font-weight:700;color:var(--text1,#0F0F11);margin-bottom:6px">
       &#9888; Unit Conversion Missing
     </div>
     <div style="font-size:13px;color:var(--text3,#888);margin-bottom:18px">
@@ -7676,8 +7677,8 @@ async function maRecalcCosts() {
       style="color:var(--yellow,#f0a500)"></strong> of this product weighs.
       Saved permanently &mdash; only needs to be done once.
     </div>
-    <div style="background:var(--bg,#111);border-radius:6px;padding:12px 14px;margin-bottom:20px">
-      <div style="font-weight:600;color:var(--text1,#fff);margin-bottom:3px"
+    <div style="background:var(--bg,#fff);border-radius:6px;padding:12px 14px;margin-bottom:20px">
+      <div style="font-weight:600;color:var(--text1,#0F0F11);margin-bottom:3px"
            id="ucm-product-name"></div>
       <div style="font-size:12px;color:var(--text3,#888)">
         Purchased as: <strong id="ucm-purchase-desc"
@@ -7691,13 +7692,13 @@ async function maRecalcCosts() {
     </div>
     <div style="display:flex;gap:8px;margin-bottom:18px">
       <input id="ucm-to-qty" type="number" min="0.001" step="0.001"
-             style="flex:1;padding:11px 12px;background:var(--bg,#111);
-                    border:1px solid var(--border,#444);color:var(--text1,#fff);
+             style="flex:1;padding:11px 12px;background:var(--bg,#fff);
+                    border:1px solid var(--border,rgba(0,0,0,0.12));color:var(--text1,#0F0F11);
                     border-radius:6px;font-size:22px;font-weight:600"
              placeholder="1.1">
       <select id="ucm-to-unit"
-              style="width:90px;padding:11px 8px;background:var(--bg,#111);
-                     border:1px solid var(--border,#444);color:var(--text1,#fff);
+              style="width:90px;padding:11px 8px;background:var(--bg,#fff);
+                     border:1px solid var(--border,rgba(0,0,0,0.12));color:var(--text1,#0F0F11);
                      border-radius:6px;font-size:15px">
         <option value="oz" selected>oz</option>
         <option value="g">g</option>
@@ -7712,7 +7713,7 @@ async function maRecalcCosts() {
     <div id="ucm-cost-preview"
          style="font-size:13px;color:var(--green,#2ecc71);margin-bottom:16px;
                 min-height:18px;font-weight:600"></div>
-    <div style="background:var(--bg,#111);border-radius:5px;padding:8px 10px;
+    <div style="background:var(--bg,#fff);border-radius:5px;padding:8px 10px;
                 font-size:11px;color:var(--text3,#666);margin-bottom:16px">
       Check the spec sheet on the packaging for exact weight per piece.
       Common: mozz stick ~1.1 oz, chicken wing ~2 oz, burger patty 4 oz,

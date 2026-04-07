@@ -63,7 +63,8 @@ def cost_ingredient(ri, conn):
         product = conn.execute("""
             SELECT p.id, p.name, p.unit as purchase_unit, p.pack_size, p.pack_unit,
                    p.active_vendor_item_id, p.yield_pct as product_yield_pct,
-                   vi.purchase_price
+                   vi.purchase_price, vi.price_per_unit, vi.pack_contains, vi.contains_unit,
+                   vi.pack_size as vi_pack_size, vi.pack_unit as vi_pack_unit
             FROM products p
             LEFT JOIN vendor_items vi ON p.active_vendor_item_id = vi.id
             WHERE p.id = ?
@@ -80,6 +81,25 @@ def cost_ingredient(ri, conn):
         prod_unit = (product.get('purchase_unit') or '').strip().lower()
         pack_unit = (product.get('pack_unit') or prod_unit).strip().lower()
         pack_size = product.get('pack_size') or 1
+
+        # Use vendor item pack_contains if available (e.g. 20/8oz case = 160oz total)
+        # This gives us the real cost per base unit
+        vi_pack_contains = product.get('pack_contains')
+        vi_contains_unit = (product.get('contains_unit') or '').strip().lower()
+        if vi_pack_contains and vi_pack_contains > 0 and vi_contains_unit:
+            pack_size = vi_pack_contains
+            pack_unit = vi_contains_unit
+
+        # Use price_per_unit from vendor item if available (pre-calculated)
+        vi_price_per_unit = product.get('price_per_unit')
+        if vi_price_per_unit and vi_price_per_unit > 0:
+            # price_per_unit is cost per contains_unit (e.g. per oz)
+            # Direct multiply by quantity if units match
+            ppu_unit = vi_contains_unit or pack_unit
+            recipe_unit_lower = recipe_unit.strip().lower()
+            if ppu_unit == recipe_unit_lower or (ppu_unit in ('oz',) and recipe_unit_lower in ('oz', 'ounce')):
+                cost = quantity * vi_price_per_unit
+                return {'cost': round(cost, 4), 'unit_price': round(vi_price_per_unit, 4), 'source': 'vendor_item'}
 
         # PATH 1: same unit or no recipe unit -> direct multiply
         if not recipe_unit or recipe_unit == prod_unit or recipe_unit == pack_unit:
